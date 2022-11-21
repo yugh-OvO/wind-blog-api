@@ -223,13 +223,6 @@
                 <version>${wind.version}</version>
             </dependency>
 
-            <!-- 代码生成-->
-            <dependency>
-                <groupId>wind</groupId>
-                <artifactId>generator</artifactId>
-                <version>${wind.version}</version>
-            </dependency>
-
             <!-- 系统模块-->
             <dependency>
                 <groupId>wind</groupId>
@@ -237,10 +230,10 @@
                 <version>${wind.version}</version>
             </dependency>
 
-            <!-- 业务模块-->
+            <!-- 博客模块-->
             <dependency>
                 <groupId>wind</groupId>
-                <artifactId>business</artifactId>
+                <artifactId>blog</artifactId>
                 <version>${wind.version}</version>
             </dependency>
 
@@ -251,8 +244,7 @@
         <module>boot</module>
         <module>common</module>
         <module>system</module>
-        <module>business</module>
-        <module>generator</module>
+        <module>blog</module>
     </modules>
     <packaging>pom</packaging>
 

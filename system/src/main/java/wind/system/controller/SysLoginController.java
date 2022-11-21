@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import wind.common.annotation.Anonymous;
 import wind.common.constant.Constants;
-import wind.common.core.domain.Res;
+import wind.common.core.domain.Result;
 import wind.common.core.domain.model.LoginBody;
 import wind.common.helper.LoginHelper;
 import wind.system.domain.SysUser;
@@ -41,13 +41,13 @@ public class SysLoginController {
      */
     @Anonymous
     @PostMapping("/login")
-    public Res<Map<String, Object>> login(@Validated @RequestBody LoginBody loginBody) {
+    public Result<Map<String, Object>> login(@Validated @RequestBody LoginBody loginBody) {
         Map<String, Object> ajax = MapUtil.newHashMap();
         // 生成令牌
         String token = loginService.login(loginBody.getUsername(), loginBody.getPassword(), loginBody.getCode(),
             loginBody.getUuid());
         ajax.put(Constants.TOKEN, token);
-        return Res.ok(ajax);
+        return Result.ok(ajax);
     }
 
     /**
@@ -55,9 +55,9 @@ public class SysLoginController {
      */
     @Anonymous
     @PostMapping("/logout")
-    public Res<Void> logout() {
+    public Result<Void> logout() {
         loginService.logout();
-        return Res.ok("退出成功");
+        return Result.ok("退出成功");
     }
 
     /**
@@ -66,11 +66,11 @@ public class SysLoginController {
      * @return 用户信息
      */
     @GetMapping("getInfo")
-    public Res<SysUser> getInfo() {
+    public Result<SysUser> getInfo() {
         SysUser user = userService.selectUserById(LoginHelper.getUserId());
         user.setPermissions(permissionService.getMenuPermission(user));
         user.setRole(user.isAdmin() ? "admin" : "user");
-        return Res.ok(user);
+        return Result.ok(user);
     }
 
 }

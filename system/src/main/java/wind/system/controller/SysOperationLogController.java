@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import wind.common.core.controller.BaseController;
 import wind.common.core.domain.PageQuery;
-import wind.common.core.domain.Res;
+import wind.common.core.domain.Result;
 import wind.common.core.page.TableDataInfo;
 import wind.system.domain.SysOperationLog;
 import wind.system.service.OperationLogService;
@@ -31,8 +31,8 @@ public class SysOperationLogController extends BaseController {
      */
     @SaCheckPermission("operationLogList")
     @GetMapping("/list")
-    public Res<TableDataInfo<SysOperationLog>> list(SysOperationLog operationLog, PageQuery pageQuery) {
-        return Res.ok(service.list(operationLog, pageQuery));
+    public Result<TableDataInfo<SysOperationLog>> list(SysOperationLog operationLog, PageQuery pageQuery) {
+        return Result.ok(service.list(operationLog, pageQuery));
     }
 
 }

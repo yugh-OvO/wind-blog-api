@@ -7,7 +7,6 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 import wind.common.config.WindConfig;
 import wind.system.service.ISysConfigService;
-import wind.system.service.ISysDictTypeService;
 
 /**
  * 初始化 system 模块对应业务数据
@@ -21,7 +20,6 @@ public class SystemApplicationRunner implements ApplicationRunner {
 
     private final WindConfig windConfig;
     private final ISysConfigService configService;
-    private final ISysDictTypeService dictTypeService;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -30,8 +28,6 @@ public class SystemApplicationRunner implements ApplicationRunner {
         }
         configService.loadingConfigCache();
         log.info("加载参数缓存数据成功");
-        dictTypeService.loadingDictCache();
-        log.info("加载字典缓存数据成功");
     }
 
 }

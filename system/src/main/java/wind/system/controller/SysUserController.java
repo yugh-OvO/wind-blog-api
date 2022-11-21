@@ -11,7 +11,7 @@ import wind.common.annotation.Log;
 import wind.common.constant.UserConstants;
 import wind.common.core.controller.BaseController;
 import wind.common.core.domain.PageQuery;
-import wind.common.core.domain.Res;
+import wind.common.core.domain.Result;
 import wind.common.core.page.TableDataInfo;
 import wind.common.enums.BusinessType;
 import wind.common.helper.LoginHelper;
@@ -44,8 +44,8 @@ public class SysUserController extends BaseController {
      */
     @SaCheckPermission("userList")
     @GetMapping("/list")
-    public Res<TableDataInfo<SysUser>> list(SysUser user, PageQuery pageQuery) {
-        return Res.ok(userService.selectPageUserList(user, pageQuery));
+    public Result<TableDataInfo<SysUser>> list(SysUser user, PageQuery pageQuery) {
+        return Result.ok(userService.selectPageUserList(user, pageQuery));
     }
 
     /**
@@ -55,13 +55,13 @@ public class SysUserController extends BaseController {
      */
     @SaCheckPermission("userList")
     @GetMapping(value = {"/", "/{userId}"})
-    public Res<SysUser> getInfo(@PathVariable(value = "userId", required = false) Integer userId) {
+    public Result<SysUser> getInfo(@PathVariable(value = "userId", required = false) Integer userId) {
         Map<String, Object> ajax = MapUtil.newHashMap();
         List<SysRole> roles = roleService.selectRoleAll();
         ajax.put("roles", LoginHelper.isAdmin(userId) ? roles : StreamUtils.filter(roles, r -> !r.isAdmin()));
         SysUser sysUser = userService.selectUserById(userId);
         sysUser.setRoleIds(StreamUtils.toList(roleService.selectRolesByUserId(sysUser.getId()), SysRole::getId).stream().toArray(Integer[]::new));
-        return Res.ok(sysUser);
+        return Result.ok(sysUser);
     }
 
     /**
@@ -70,12 +70,12 @@ public class SysUserController extends BaseController {
     @SaCheckPermission("userList")
     @Log(title = "用户管理", businessType = BusinessType.INSERT)
     @PostMapping
-    public Res<Void> add(@Validated @RequestBody SysUser user) {
+    public Result<Void> add(@Validated @RequestBody SysUser user) {
         if (UserConstants.NOT_UNIQUE.equals(userService.checkUserNameUnique(user.getUsername()))) {
-            return Res.fail("新增用户'" + user.getUsername() + "'失败，登录账号已存在");
+            return Result.fail("新增用户'" + user.getUsername() + "'失败，登录账号已存在");
         } else if (StringUtils.isNotEmpty(user.getMobile())
             && UserConstants.NOT_UNIQUE.equals(userService.checkPhoneUnique(user))) {
-            return Res.fail("新增用户'" + user.getUsername() + "'失败，手机号码已存在");
+            return Result.fail("新增用户'" + user.getUsername() + "'失败，手机号码已存在");
         }
         user.setPassword(BCrypt.hashpw(user.getPassword()));
         return toAjax(userService.insertUser(user));
@@ -87,14 +87,14 @@ public class SysUserController extends BaseController {
     @SaCheckPermission("userList")
     @Log(title = "用户管理", businessType = BusinessType.UPDATE)
     @PutMapping
-    public Res<Void> edit(@Validated @RequestBody SysUser user) {
+    public Result<Void> edit(@Validated @RequestBody SysUser user) {
         userService.checkUserAllowed(user);
         if (StringUtils.isNotEmpty(user.getMobile())
             && UserConstants.NOT_UNIQUE.equals(userService.checkPhoneUnique(user))) {
-            return Res.fail("修改用户'" + user.getUsername() + "'失败，手机号码已存在");
+            return Result.fail("修改用户'" + user.getUsername() + "'失败，手机号码已存在");
         } else if (StringUtils.isNotEmpty(user.getEmail())
             && UserConstants.NOT_UNIQUE.equals(userService.checkEmailUnique(user))) {
-            return Res.fail("修改用户'" + user.getUsername() + "'失败，邮箱账号已存在");
+            return Result.fail("修改用户'" + user.getUsername() + "'失败，邮箱账号已存在");
         }
         return toAjax(userService.updateUser(user));
     }
@@ -107,9 +107,9 @@ public class SysUserController extends BaseController {
     @SaCheckPermission("userList")
     @Log(title = "用户管理", businessType = BusinessType.DELETE)
     @DeleteMapping("/{userIds}")
-    public Res<Void> remove(@PathVariable Integer[] userIds) {
+    public Result<Void> remove(@PathVariable Integer[] userIds) {
         if (ArrayUtil.contains(userIds, getUserId())) {
-            return Res.fail("当前用户不能删除");
+            return Result.fail("当前用户不能删除");
         }
         return toAjax(userService.deleteUserByIds(userIds));
     }
@@ -120,7 +120,7 @@ public class SysUserController extends BaseController {
     @SaCheckPermission("userList")
     @Log(title = "用户管理", businessType = BusinessType.UPDATE)
     @PutMapping("/resetPwd")
-    public Res<Void> resetPwd(@RequestBody SysUser user) {
+    public Result<Void> resetPwd(@RequestBody SysUser user) {
         userService.checkUserAllowed(user);
         user.setPassword(BCrypt.hashpw(user.getPassword()));
         return toAjax(userService.resetPwd(user));
@@ -132,7 +132,7 @@ public class SysUserController extends BaseController {
     @SaCheckPermission("userList")
     @Log(title = "用户管理", businessType = BusinessType.UPDATE)
     @PutMapping("/status")
-    public Res<Void> status(@RequestBody SysUser user) {
+    public Result<Void> status(@RequestBody SysUser user) {
         userService.checkUserAllowed(user);
         return toAjax(userService.updateUserStatus(user));
     }

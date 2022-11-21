@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import wind.common.annotation.Log;
 import wind.common.constant.CacheConstants;
 import wind.common.core.controller.BaseController;
-import wind.common.core.domain.Res;
+import wind.common.core.domain.Result;
 import wind.common.core.domain.dto.UserOnlineDTO;
 import wind.common.core.page.TableDataInfo;
 import wind.common.enums.BusinessType;
@@ -80,11 +80,11 @@ public class SysUserOnlineController extends BaseController {
     @SaCheckPermission("monitor:online:forceLogout")
     @Log(title = "在线用户", businessType = BusinessType.FORCE)
     @DeleteMapping("/{tokenId}")
-    public Res<Void> forceLogout(@PathVariable String tokenId) {
+    public Result<Void> forceLogout(@PathVariable String tokenId) {
         try {
             StpUtil.kickoutByTokenValue(tokenId);
         } catch (NotLoginException e) {
         }
-        return Res.ok();
+        return Result.ok();
     }
 }

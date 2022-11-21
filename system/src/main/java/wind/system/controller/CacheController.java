@@ -8,7 +8,7 @@ import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.web.bind.annotation.*;
 import wind.common.constant.CacheConstants;
 import wind.common.constant.CacheNames;
-import wind.common.core.domain.Res;
+import wind.common.core.domain.Result;
 import wind.common.utils.JsonUtils;
 import wind.common.utils.StringUtils;
 import wind.common.utils.redis.CacheUtils;
@@ -49,7 +49,7 @@ public class CacheController {
      */
     @SaCheckPermission("monitor:cache:list")
     @GetMapping()
-    public Res<Map<String, Object>> getInfo() throws Exception {
+    public Result<Map<String, Object>> getInfo() throws Exception {
         RedisConnection connection = connectionFactory.getConnection();
         Properties info = connection.info();
         Properties commandStats = connection.info("commandstats");
@@ -70,7 +70,7 @@ public class CacheController {
             });
         }
         result.put("commandStats", pieList);
-        return Res.ok(result);
+        return Result.ok(result);
     }
 
     /**
@@ -78,8 +78,8 @@ public class CacheController {
      */
     @SaCheckPermission("monitor:cache:list")
     @GetMapping("/getNames")
-    public Res<List<SysCache>> cache() {
-        return Res.ok(CACHES);
+    public Result<List<SysCache>> cache() {
+        return Result.ok(CACHES);
     }
 
     /**
@@ -89,7 +89,7 @@ public class CacheController {
      */
     @SaCheckPermission("monitor:cache:list")
     @GetMapping("/getKeys/{cacheName}")
-    public Res<Collection<String>> getCacheKeys(@PathVariable String cacheName) {
+    public Result<Collection<String>> getCacheKeys(@PathVariable String cacheName) {
         Collection<String> cacheKeys = new HashSet<>(0);
         if (isCacheNames(cacheName)) {
             Set<Object> keys = CacheUtils.keys(cacheName);
@@ -99,7 +99,7 @@ public class CacheController {
         } else {
             cacheKeys = RedisUtils.keys(cacheName + "*");
         }
-        return Res.ok(cacheKeys);
+        return Result.ok(cacheKeys);
     }
 
     /**
@@ -110,7 +110,7 @@ public class CacheController {
      */
     @SaCheckPermission("monitor:cache:list")
     @GetMapping("/getValue/{cacheName}/{cacheKey}")
-    public Res<SysCache> getCacheValue(@PathVariable String cacheName, @PathVariable String cacheKey) {
+    public Result<SysCache> getCacheValue(@PathVariable String cacheName, @PathVariable String cacheKey) {
         Object cacheValue;
         if (isCacheNames(cacheName)) {
             cacheValue = CacheUtils.get(cacheName, cacheKey);
@@ -118,7 +118,7 @@ public class CacheController {
             cacheValue = RedisUtils.getCacheObject(cacheKey);
         }
         SysCache sysCache = new SysCache(cacheName, cacheKey, JsonUtils.toJsonString(cacheValue));
-        return Res.ok(sysCache);
+        return Result.ok(sysCache);
     }
 
     /**
@@ -128,13 +128,13 @@ public class CacheController {
      */
     @SaCheckPermission("monitor:cache:list")
     @DeleteMapping("/clearCacheName/{cacheName}")
-    public Res<Void> clearCacheName(@PathVariable String cacheName) {
+    public Result<Void> clearCacheName(@PathVariable String cacheName) {
         if (isCacheNames(cacheName)) {
             CacheUtils.clear(cacheName);
         } else {
             RedisUtils.deleteKeys(cacheName + "*");
         }
-        return Res.ok();
+        return Result.ok();
     }
 
     /**
@@ -144,13 +144,13 @@ public class CacheController {
      */
     @SaCheckPermission("monitor:cache:list")
     @DeleteMapping("/clearCacheKey/{cacheName}/{cacheKey}")
-    public Res<Void> clearCacheKey(@PathVariable String cacheName, @PathVariable String cacheKey) {
+    public Result<Void> clearCacheKey(@PathVariable String cacheName, @PathVariable String cacheKey) {
         if (isCacheNames(cacheName)) {
             CacheUtils.evict(cacheName, cacheKey);
         } else {
             RedisUtils.deleteObject(cacheKey);
         }
-        return Res.ok();
+        return Result.ok();
     }
 
     /**
@@ -158,9 +158,9 @@ public class CacheController {
      */
     @SaCheckPermission("monitor:cache:list")
     @DeleteMapping("/clearCacheAll")
-    public Res<Void> clearCacheAll() {
+    public Result<Void> clearCacheAll() {
         RedisUtils.deleteKeys("*");
-        return Res.ok();
+        return Result.ok();
     }
 
     private boolean isCacheNames(String cacheName) {
