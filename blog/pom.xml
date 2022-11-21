@@ -17,6 +17,11 @@
 
     <dependencies>
 
+        <dependency>
+            <groupId>cn.easy-es</groupId>
+            <artifactId>easy-es-boot-starter</artifactId>
+        </dependency>
+
         <!-- 通用工具-->
         <dependency>
             <groupId>wind</groupId>

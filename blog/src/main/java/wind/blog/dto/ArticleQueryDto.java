@@ -13,9 +13,9 @@ import lombok.Data;
 public class ArticleQueryDto {
 
     /**
-     * 问题内容
+     * 标题
      */
-    private String content;
+    private String title;
 
     /**
      * 注册时间

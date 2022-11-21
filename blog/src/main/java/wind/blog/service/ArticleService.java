@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import wind.blog.dto.ArticleQueryDto;
 import wind.blog.dto.ArticleSubmitDto;
+import wind.blog.es.ArticleEsMapper;
 import wind.blog.mapper.ArticleMapper;
 import wind.blog.model.Article;
 import wind.blog.vo.ArticleVo;
@@ -31,11 +32,13 @@ public class ArticleService {
 
     private final ArticleMapper model;
 
-    public TableDataInfo<ArticleVo> list(ArticleQueryDto req, PageQuery pageQuery) {
+    private final ArticleEsMapper esModel;
+
+    public TableDataInfo<ArticleVo> list(ArticleQueryDto dto, PageQuery pageQuery) {
         LambdaQueryWrapper<Article> lqw = Wrappers.lambdaQuery();
-        lqw.like(StringUtils.isNotEmpty(req.getContent()), Article::getContent, req.getContent());
-        lqw.eq(ObjectUtil.isNotNull(req.getStatus()), Article::getStatus, req.getStatus());
-        String[] createTime = req.getCreateTimeRange();
+        lqw.like(StringUtils.isNotEmpty(dto.getTitle()), Article::getContent, dto.getTitle());
+        lqw.eq(ObjectUtil.isNotNull(dto.getStatus()), Article::getStatus, dto.getStatus());
+        String[] createTime = dto.getCreateTimeRange();
         if (createTime != null && createTime.length == 2) {
             lqw.between(Article::getCreateTime, createTime[0], createTime[1] + " 23:59:59");
         }
@@ -52,11 +55,13 @@ public class ArticleService {
 
     public Boolean create(ArticleSubmitDto req) {
         Article data = BeanUtil.toBean(req, Article.class);
+        esModel.insert(data);
         return model.insert(data) > 0;
     }
 
     public Boolean update(ArticleSubmitDto req) {
         Article data = BeanUtil.toBean(req, Article.class);
+        esModel.updateById(data);
         return model.updateById(data) > 0;
     }
 
@@ -68,14 +73,8 @@ public class ArticleService {
     }
 
     public Boolean delete(Integer id) {
+        esModel.deleteById(id);
         return model.deleteById(id) > 0;
-    }
-
-    public List<ArticleVo> all() {
-        LambdaQueryWrapper<Article> lqw = Wrappers.lambdaQuery();
-        lqw.orderByAsc(Article::getId);
-        List<ArticleVo> result = model.selectVoList(lqw);
-        return result;
     }
 
 }

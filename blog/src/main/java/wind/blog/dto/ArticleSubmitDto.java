@@ -19,6 +19,11 @@ public class ArticleSubmitDto {
     private Long id;
 
     /**
+     * 标题
+     */
+    private String title;
+
+    /**
      * 内容
      */
     private String content;
@@ -27,5 +32,15 @@ public class ArticleSubmitDto {
      * 状态(1-正常，2-禁用)
      */
     private Integer status;
+
+    /**
+     * 分类id
+     */
+    private Integer categoryId;
+
+    /**
+     * 封面图
+     */
+    private String cover;
 
 }
