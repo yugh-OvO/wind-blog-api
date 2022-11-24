@@ -1,7 +1,7 @@
 package wind.system.mapper;
 
 import wind.common.core.mapper.BaseMapperPlus;
-import wind.system.domain.SysUser;
+import wind.system.entity.SysUser;
 
 /**
  * 用户表 数据层

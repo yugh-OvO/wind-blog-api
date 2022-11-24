@@ -1,4 +1,4 @@
-package wind.system.domain;
+package wind.system.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;

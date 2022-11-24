@@ -40,13 +40,13 @@ public class SaTokenConfig implements WebMvcConfigurer {
             // 登录验证 -- 排除多个路径
             // 检查是否登录 是否有token
             SaRouter
-                // 获取所有的
-                .match("/**")
-                // 排除下不需要拦截的
-                .notMatch(securityProperties.getExcludes())
-                .notMatch(excludeUrlProperties.getExcludes())
-                // 对未排除的路径进行检查
-                .check(StpUtil::checkLogin);
+                    // 获取所有的
+                    .match("/**")
+                    // 排除下不需要拦截的
+                    .notMatch(securityProperties.getExcludes())
+                    .notMatch(excludeUrlProperties.getExcludes())
+                    // 对未排除的路径进行检查
+                    .check(StpUtil::checkLogin);
         })).addPathPatterns("/**");
         registry.addInterceptor(new SaAnnotationInterceptor()).addPathPatterns("/**");
     }

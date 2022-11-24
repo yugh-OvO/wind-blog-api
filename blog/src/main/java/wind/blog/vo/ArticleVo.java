@@ -1,8 +1,6 @@
 package wind.blog.vo;
 
-import cn.hutool.json.JSONArray;
 import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import wind.common.core.domain.BusinessEntity;
@@ -22,37 +20,43 @@ import java.util.Date;
 public class ArticleVo extends BusinessEntity {
 
     /**
-     * id
+     * 标题
      */
-    private Integer id;
+    private String title;
 
     /**
-     * 问题内容
+     * 内容
      */
     private String content;
 
     /**
-     * 答案json
-     */
-    private JSONArray answersArray;
-
-    private String answers;
-
-    /**
      * 状态(1-正常，2-禁用)
      */
-    @JsonIgnore
     private Integer status;
 
-    private Date createTime;
+    /**
+     * 是否置顶(1-是，2-否)
+     */
+    private Integer isTop;
 
-    @JsonIgnore
-    private Date updateTime;
+    /**
+     * 分类id
+     */
+    private Integer categoryId;
 
-    @JsonIgnore
+    /**
+     * 封面图
+     */
+    private String cover;
+
+    /**
+     * 创建人
+     */
     private String createBy;
 
-    @JsonIgnore
-    private String updateBy;
+    /**
+     * 创建时间
+     */
+    private Date createTime;
 
 }

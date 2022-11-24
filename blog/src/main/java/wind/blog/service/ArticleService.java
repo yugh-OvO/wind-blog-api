@@ -2,23 +2,21 @@ package wind.blog.service;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import wind.blog.dto.ArticleQueryDto;
-import wind.blog.dto.ArticleSubmitDto;
-import wind.blog.es.ArticleEsMapper;
+import wind.blog.dto.ArticleDto;
+import wind.blog.dto.query.ArticleQueryDto;
+import wind.blog.entity.Article;
+import wind.blog.es.domain.ArticleEs;
+import wind.blog.es.mapper.ArticleEsMapper;
 import wind.blog.mapper.ArticleMapper;
-import wind.blog.model.Article;
 import wind.blog.vo.ArticleVo;
 import wind.common.core.domain.PageQuery;
 import wind.common.core.page.TableDataInfo;
-
-import java.util.List;
 
 /**
  * 用户Service业务层处理
@@ -35,6 +33,9 @@ public class ArticleService {
     private final ArticleEsMapper esModel;
 
     public TableDataInfo<ArticleVo> list(ArticleQueryDto dto, PageQuery pageQuery) {
+//        LambdaEsQueryWrapper<ArticleEs> wrapper = new LambdaEsQueryWrapper<>();
+//        wrapper.like(ArticleEs::getTitle, "123");
+//        System.out.println(esModel.selectList(wrapper));
         LambdaQueryWrapper<Article> lqw = Wrappers.lambdaQuery();
         lqw.like(StringUtils.isNotEmpty(dto.getTitle()), Article::getContent, dto.getTitle());
         lqw.eq(ObjectUtil.isNotNull(dto.getStatus()), Article::getStatus, dto.getStatus());
@@ -49,19 +50,25 @@ public class ArticleService {
 
     public ArticleVo find(Integer id) {
         ArticleVo data = model.selectVoById(id);
-        data.setAnswersArray(JSONUtil.parseArray(data.getAnswers()));
         return data;
     }
 
-    public Boolean create(ArticleSubmitDto req) {
+    public Boolean create(ArticleDto req) {
         Article data = BeanUtil.toBean(req, Article.class);
-        esModel.insert(data);
-        return model.insert(data) > 0;
+        int result = model.insert(data);
+        if (result > 0) {
+            // 获取刚插入的数据
+            Article lastOne = model.selectOne(Wrappers.lambdaQuery(Article.class).orderByDesc(Article::getId).last("limit 1"));
+            ArticleEs esArticle = BeanUtil.toBean(lastOne, ArticleEs.class);
+            esModel.insert(esArticle);
+        }
+        return result > 0;
     }
 
-    public Boolean update(ArticleSubmitDto req) {
+    public Boolean update(ArticleDto req) {
         Article data = BeanUtil.toBean(req, Article.class);
-        esModel.updateById(data);
+        ArticleEs esArticle = BeanUtil.toBean(req, ArticleEs.class);
+        esModel.updateById(esArticle);
         return model.updateById(data) > 0;
     }
 

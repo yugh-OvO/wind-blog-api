@@ -44,13 +44,13 @@ import java.util.concurrent.ConcurrentMap;
 @SuppressWarnings("unchecked")
 public class PlusSpringCacheManager implements CacheManager {
 
+    private final static int TWO = 2;
+    private final static int THREE = 3;
     Map<String, CacheConfig> configMap = new ConcurrentHashMap<>();
     ConcurrentMap<String, Cache> instanceMap = new ConcurrentHashMap<>();
     private boolean dynamic = true;
     private boolean allowNullValues = true;
     private boolean transactionAware = true;
-    private final static int TWO = 2;
-    private final static int THREE = 3;
 
 
     /**

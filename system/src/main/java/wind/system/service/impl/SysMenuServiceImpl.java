@@ -13,9 +13,9 @@ import wind.common.constant.Constants;
 import wind.common.constant.UserConstants;
 import wind.common.helper.LoginHelper;
 import wind.common.utils.StringUtils;
-import wind.system.domain.SysMenu;
-import wind.system.domain.SysRole;
-import wind.system.domain.SysRoleMenu;
+import wind.system.entity.SysMenu;
+import wind.system.entity.SysRole;
+import wind.system.entity.SysRoleMenu;
 import wind.system.mapper.SysMenuMapper;
 import wind.system.mapper.SysRoleMapper;
 import wind.system.mapper.SysRoleMenuMapper;
@@ -59,13 +59,13 @@ public class SysMenuServiceImpl implements ISysMenuService {
         // 管理员显示所有菜单信息
         if (LoginHelper.isAdmin(userId)) {
             menuList = baseMapper.selectList(new LambdaQueryWrapper<SysMenu>()
-                .like(StringUtils.isNotBlank(menu.getName()), SysMenu::getName, menu.getName())
-                .orderByDesc(SysMenu::getSort));
+                    .like(StringUtils.isNotBlank(menu.getName()), SysMenu::getName, menu.getName())
+                    .orderByDesc(SysMenu::getSort));
         } else {
             QueryWrapper<SysMenu> wrapper = Wrappers.query();
             wrapper.eq("sur.user_id", userId)
-                .like(StringUtils.isNotBlank(menu.getName()), "m.menu_name", menu.getName())
-                .orderByDesc("m.sort");
+                    .like(StringUtils.isNotBlank(menu.getName()), "m.menu_name", menu.getName())
+                    .orderByDesc("m.sort");
             menuList = baseMapper.selectMenuListByUserId(wrapper);
         }
         return menuList;
@@ -231,9 +231,9 @@ public class SysMenuServiceImpl implements ISysMenuService {
     @Override
     public String checkMenuNameUnique(SysMenu menu) {
         boolean exist = baseMapper.exists(new LambdaQueryWrapper<SysMenu>()
-            .eq(SysMenu::getName, menu.getName())
-            .eq(SysMenu::getParentId, menu.getParentId())
-            .ne(ObjectUtil.isNotNull(menu.getId()), SysMenu::getId, menu.getId()));
+                .eq(SysMenu::getName, menu.getName())
+                .eq(SysMenu::getParentId, menu.getParentId())
+                .ne(ObjectUtil.isNotNull(menu.getId()), SysMenu::getId, menu.getId()));
         if (exist) {
             return UserConstants.NOT_UNIQUE;
         }
@@ -303,6 +303,6 @@ public class SysMenuServiceImpl implements ISysMenuService {
      */
     public String innerLinkReplaceEach(String path) {
         return StringUtils.replaceEach(path, new String[]{Constants.HTTP, Constants.HTTPS, Constants.WWW, "."},
-            new String[]{"", ""});
+                new String[]{"", ""});
     }
 }

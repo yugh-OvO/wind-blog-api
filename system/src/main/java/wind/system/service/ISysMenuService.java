@@ -1,7 +1,7 @@
 package wind.system.service;
 
 import cn.hutool.core.lang.tree.Tree;
-import wind.system.domain.SysMenu;
+import wind.system.entity.SysMenu;
 
 import java.util.List;
 import java.util.Set;

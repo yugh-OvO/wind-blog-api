@@ -12,7 +12,7 @@ import wind.common.constant.Constants;
 import wind.common.core.domain.Result;
 import wind.common.core.domain.model.LoginBody;
 import wind.common.helper.LoginHelper;
-import wind.system.domain.SysUser;
+import wind.system.entity.SysUser;
 import wind.system.service.ISysUserService;
 import wind.system.service.SysLoginService;
 import wind.system.service.SysPermissionService;
@@ -45,7 +45,7 @@ public class SysLoginController {
         Map<String, Object> ajax = MapUtil.newHashMap();
         // 生成令牌
         String token = loginService.login(loginBody.getUsername(), loginBody.getPassword(), loginBody.getCode(),
-            loginBody.getUuid());
+                loginBody.getUuid());
         ajax.put(Constants.TOKEN, token);
         return Result.ok(ajax);
     }

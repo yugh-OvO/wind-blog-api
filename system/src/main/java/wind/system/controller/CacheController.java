@@ -13,7 +13,7 @@ import wind.common.utils.JsonUtils;
 import wind.common.utils.StringUtils;
 import wind.common.utils.redis.CacheUtils;
 import wind.common.utils.redis.RedisUtils;
-import wind.system.domain.SysCache;
+import wind.system.entity.SysCache;
 
 import java.util.*;
 import java.util.stream.Collectors;

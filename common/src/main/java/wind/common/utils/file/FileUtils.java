@@ -28,11 +28,11 @@ public class FileUtils extends FileUtil {
 
         StringBuilder contentDispositionValue = new StringBuilder();
         contentDispositionValue.append("attachment; filename=")
-            .append(percentEncodedFileName)
-            .append(";")
-            .append("filename*=")
-            .append("utf-8''")
-            .append(percentEncodedFileName);
+                .append(percentEncodedFileName)
+                .append(";")
+                .append("filename*=")
+                .append("utf-8''")
+                .append(percentEncodedFileName);
 
         response.addHeader("Access-Control-Expose-Headers", "Content-Disposition,download-filename");
         response.setHeader("Content-disposition", contentDispositionValue.toString());

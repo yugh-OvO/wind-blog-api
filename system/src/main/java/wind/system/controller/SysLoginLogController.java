@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import wind.common.core.controller.BaseController;
 import wind.common.core.domain.PageQuery;
 import wind.common.core.page.TableDataInfo;
-import wind.system.domain.SysLoginLog;
+import wind.system.entity.SysLoginLog;
 import wind.system.service.LoginLogService;
 
 /**

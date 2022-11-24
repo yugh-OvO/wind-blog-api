@@ -17,8 +17,8 @@ import wind.common.enums.BusinessType;
 import wind.common.helper.LoginHelper;
 import wind.common.utils.StreamUtils;
 import wind.common.utils.StringUtils;
-import wind.system.domain.SysRole;
-import wind.system.domain.SysUser;
+import wind.system.entity.SysRole;
+import wind.system.entity.SysUser;
 import wind.system.service.ISysRoleService;
 import wind.system.service.ISysUserService;
 
@@ -74,7 +74,7 @@ public class SysUserController extends BaseController {
         if (UserConstants.NOT_UNIQUE.equals(userService.checkUserNameUnique(user.getUsername()))) {
             return Result.fail("新增用户'" + user.getUsername() + "'失败，登录账号已存在");
         } else if (StringUtils.isNotEmpty(user.getMobile())
-            && UserConstants.NOT_UNIQUE.equals(userService.checkPhoneUnique(user))) {
+                && UserConstants.NOT_UNIQUE.equals(userService.checkPhoneUnique(user))) {
             return Result.fail("新增用户'" + user.getUsername() + "'失败，手机号码已存在");
         }
         user.setPassword(BCrypt.hashpw(user.getPassword()));
@@ -90,10 +90,10 @@ public class SysUserController extends BaseController {
     public Result<Void> edit(@Validated @RequestBody SysUser user) {
         userService.checkUserAllowed(user);
         if (StringUtils.isNotEmpty(user.getMobile())
-            && UserConstants.NOT_UNIQUE.equals(userService.checkPhoneUnique(user))) {
+                && UserConstants.NOT_UNIQUE.equals(userService.checkPhoneUnique(user))) {
             return Result.fail("修改用户'" + user.getUsername() + "'失败，手机号码已存在");
         } else if (StringUtils.isNotEmpty(user.getEmail())
-            && UserConstants.NOT_UNIQUE.equals(userService.checkEmailUnique(user))) {
+                && UserConstants.NOT_UNIQUE.equals(userService.checkEmailUnique(user))) {
             return Result.fail("修改用户'" + user.getUsername() + "'失败，邮箱账号已存在");
         }
         return toAjax(userService.updateUser(user));

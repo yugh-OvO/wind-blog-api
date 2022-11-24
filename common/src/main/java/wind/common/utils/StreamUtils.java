@@ -124,8 +124,8 @@ public class StreamUtils {
             return MapUtil.newHashMap();
         }
         return collection
-            .stream()
-            .collect(Collectors.groupingBy(key, LinkedHashMap::new, Collectors.toList()));
+                .stream()
+                .collect(Collectors.groupingBy(key, LinkedHashMap::new, Collectors.toList()));
     }
 
     /**
@@ -145,8 +145,8 @@ public class StreamUtils {
             return MapUtil.newHashMap();
         }
         return collection
-            .stream()
-            .collect(Collectors.groupingBy(key1, LinkedHashMap::new, Collectors.groupingBy(key2, LinkedHashMap::new, Collectors.toList())));
+                .stream()
+                .collect(Collectors.groupingBy(key1, LinkedHashMap::new, Collectors.groupingBy(key2, LinkedHashMap::new, Collectors.toList())));
     }
 
     /**
@@ -166,8 +166,8 @@ public class StreamUtils {
             return MapUtil.newHashMap();
         }
         return collection
-            .stream()
-            .collect(Collectors.groupingBy(key1, LinkedHashMap::new, Collectors.toMap(key2, Function.identity(), (l, r) -> l)));
+                .stream()
+                .collect(Collectors.groupingBy(key1, LinkedHashMap::new, Collectors.toMap(key2, Function.identity(), (l, r) -> l)));
     }
 
     /**
@@ -185,10 +185,10 @@ public class StreamUtils {
             return CollUtil.newArrayList();
         }
         return collection
-            .stream()
-            .map(function)
-            .filter(Objects::nonNull)
-            .collect(Collectors.toList());
+                .stream()
+                .map(function)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -206,10 +206,10 @@ public class StreamUtils {
             return CollUtil.newHashSet();
         }
         return collection
-            .stream()
-            .map(function)
-            .filter(Objects::nonNull)
-            .collect(Collectors.toSet());
+                .stream()
+                .map(function)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
     }
 
 

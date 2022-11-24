@@ -12,7 +12,7 @@ import wind.common.core.domain.Result;
 import wind.common.core.page.TableDataInfo;
 import wind.common.enums.BusinessType;
 import wind.common.utils.poi.ExcelUtil;
-import wind.system.domain.SysConfig;
+import wind.system.entity.SysConfig;
 import wind.system.service.ISysConfigService;
 
 import javax.servlet.http.HttpServletResponse;
@@ -69,7 +69,6 @@ public class SysConfigController extends BaseController {
      */
     @GetMapping(value = "/code/{code}")
     public Result<Void> getCode(@PathVariable String code) {
-        System.out.println("code = " + code);
         return Result.ok(configService.selectConfigByCode(code));
     }
 

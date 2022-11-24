@@ -1,4 +1,4 @@
-package wind.system.response;
+package wind.system.vo;
 
 import lombok.Builder;
 import lombok.Data;
@@ -10,7 +10,7 @@ import lombok.Data;
  */
 @Data
 @Builder
-public class UploadRes {
+public class UploadVo {
 
     /**
      * 文件路径

@@ -28,11 +28,11 @@ public class CreateAndUpdateMetaObjectHandler implements MetaObjectHandler {
             if (ObjectUtil.isNotNull(metaObject) && metaObject.getOriginalObject() instanceof BaseEntity) {
                 BaseEntity baseEntity = (BaseEntity) metaObject.getOriginalObject();
                 Date current = ObjectUtil.isNotNull(baseEntity.getCreateTime())
-                    ? baseEntity.getCreateTime() : new Date();
+                        ? baseEntity.getCreateTime() : new Date();
                 baseEntity.setCreateTime(current);
                 baseEntity.setUpdateTime(current);
                 String username = StringUtils.isNotBlank(baseEntity.getCreateBy())
-                    ? baseEntity.getCreateBy() : getLoginUsername();
+                        ? baseEntity.getCreateBy() : getLoginUsername();
                 // 当前已登录 且 创建人为空 则填充
                 baseEntity.setCreateBy(username);
                 // 当前已登录 且 更新人为空 则填充

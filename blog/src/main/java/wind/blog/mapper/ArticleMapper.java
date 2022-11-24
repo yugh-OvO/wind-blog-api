@@ -1,6 +1,6 @@
 package wind.blog.mapper;
 
-import wind.blog.model.Article;
+import wind.blog.entity.Article;
 import wind.blog.vo.ArticleVo;
 import wind.common.core.mapper.BaseMapperPlus;
 

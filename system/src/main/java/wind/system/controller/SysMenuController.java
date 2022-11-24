@@ -11,7 +11,7 @@ import wind.common.constant.UserConstants;
 import wind.common.core.controller.BaseController;
 import wind.common.core.domain.Result;
 import wind.common.enums.BusinessType;
-import wind.system.domain.SysMenu;
+import wind.system.entity.SysMenu;
 import wind.system.service.ISysMenuService;
 
 import java.util.List;

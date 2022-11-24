@@ -2,7 +2,7 @@ package wind.system.service;
 
 import wind.common.core.domain.PageQuery;
 import wind.common.core.page.TableDataInfo;
-import wind.system.domain.SysConfig;
+import wind.system.entity.SysConfig;
 
 import java.util.List;
 

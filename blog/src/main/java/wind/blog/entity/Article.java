@@ -1,35 +1,35 @@
-package wind.blog.model;
+package wind.blog.entity;
 
-import cn.easyes.annotation.IndexName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import wind.common.core.domain.BaseEntity;
+import wind.common.core.domain.BusinessEntity;
+
+import java.util.Date;
 
 /**
- * 用户对象 member
+ * 文章对象 article
  *
  * @author Yu Gaoheng
  * @date 2022-10-24
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("article")
-@IndexName("article")
-public class Article extends BaseEntity {
+@TableName("blog_article")
+public class Article extends BusinessEntity {
+
+    /**
+     * 文章id
+     */
+    @TableId(type = IdType.AUTO)
+    private Integer id;
 
     /**
      * 标题
      */
     private String title;
-
-    /**
-     * 问题编号
-     */
-    @TableId(type = IdType.AUTO)
-    private Integer id;
 
     /**
      * 内容
@@ -55,5 +55,16 @@ public class Article extends BaseEntity {
      * 封面图
      */
     private String cover;
+
+    /**
+     * 创建人
+     */
+    private String createBy;
+
+    /**
+     * 创建时间
+     */
+    private Date createTime;
+
 
 }

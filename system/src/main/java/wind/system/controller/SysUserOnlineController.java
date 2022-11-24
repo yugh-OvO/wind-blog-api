@@ -16,7 +16,7 @@ import wind.common.enums.BusinessType;
 import wind.common.utils.StreamUtils;
 import wind.common.utils.StringUtils;
 import wind.common.utils.redis.RedisUtils;
-import wind.system.domain.SysUserOnline;
+import wind.system.entity.SysUserOnline;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -54,16 +54,16 @@ public class SysUserOnlineController extends BaseController {
         }
         if (StringUtils.isNotEmpty(ipaddr) && StringUtils.isNotEmpty(userName)) {
             userOnlineDTOList = StreamUtils.filter(userOnlineDTOList, userOnline ->
-                StringUtils.equals(ipaddr, userOnline.getIpaddr()) &&
-                    StringUtils.equals(userName, userOnline.getUserName())
+                    StringUtils.equals(ipaddr, userOnline.getIpaddr()) &&
+                            StringUtils.equals(userName, userOnline.getUserName())
             );
         } else if (StringUtils.isNotEmpty(ipaddr)) {
             userOnlineDTOList = StreamUtils.filter(userOnlineDTOList, userOnline ->
-                StringUtils.equals(ipaddr, userOnline.getIpaddr())
+                    StringUtils.equals(ipaddr, userOnline.getIpaddr())
             );
         } else if (StringUtils.isNotEmpty(userName)) {
             userOnlineDTOList = StreamUtils.filter(userOnlineDTOList, userOnline ->
-                StringUtils.equals(userName, userOnline.getUserName())
+                    StringUtils.equals(userName, userOnline.getUserName())
             );
         }
         Collections.reverse(userOnlineDTOList);

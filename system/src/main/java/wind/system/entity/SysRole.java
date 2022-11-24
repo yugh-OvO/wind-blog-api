@@ -1,4 +1,4 @@
-package wind.system.domain;
+package wind.system.entity;
 
 import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.baomidou.mybatisplus.annotation.IdType;

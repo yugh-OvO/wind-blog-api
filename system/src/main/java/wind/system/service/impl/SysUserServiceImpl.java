@@ -17,9 +17,9 @@ import wind.common.core.page.TableDataInfo;
 import wind.common.exception.ServiceException;
 import wind.common.utils.StreamUtils;
 import wind.common.utils.StringUtils;
-import wind.system.domain.SysRole;
-import wind.system.domain.SysUser;
-import wind.system.domain.SysUserRole;
+import wind.system.entity.SysRole;
+import wind.system.entity.SysUser;
+import wind.system.entity.SysUserRole;
 import wind.system.mapper.SysRoleMapper;
 import wind.system.mapper.SysUserMapper;
 import wind.system.mapper.SysUserRoleMapper;
@@ -122,8 +122,8 @@ public class SysUserServiceImpl implements ISysUserService {
     @Override
     public String checkPhoneUnique(SysUser user) {
         boolean exist = baseMapper.exists(new LambdaQueryWrapper<SysUser>()
-            .eq(SysUser::getMobile, user.getMobile())
-            .ne(ObjectUtil.isNotNull(user.getId()), SysUser::getId, user.getId()));
+                .eq(SysUser::getMobile, user.getMobile())
+                .ne(ObjectUtil.isNotNull(user.getId()), SysUser::getId, user.getId()));
         if (exist) {
             return UserConstants.NOT_UNIQUE;
         }
@@ -139,8 +139,8 @@ public class SysUserServiceImpl implements ISysUserService {
     @Override
     public String checkEmailUnique(SysUser user) {
         boolean exist = baseMapper.exists(new LambdaQueryWrapper<SysUser>()
-            .eq(SysUser::getEmail, user.getEmail())
-            .ne(ObjectUtil.isNotNull(user.getId()), SysUser::getId, user.getId()));
+                .eq(SysUser::getEmail, user.getEmail())
+                .ne(ObjectUtil.isNotNull(user.getId()), SysUser::getId, user.getId()));
         if (exist) {
             return UserConstants.NOT_UNIQUE;
         }
@@ -235,9 +235,9 @@ public class SysUserServiceImpl implements ISysUserService {
     @Override
     public int resetUserPwd(String userName, String password) {
         return baseMapper.update(null,
-            new LambdaUpdateWrapper<SysUser>()
-                .set(SysUser::getPassword, password)
-                .eq(SysUser::getUsername, userName));
+                new LambdaUpdateWrapper<SysUser>()
+                        .set(SysUser::getPassword, password)
+                        .eq(SysUser::getUsername, userName));
     }
 
     /**

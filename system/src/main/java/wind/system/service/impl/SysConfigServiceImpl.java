@@ -18,7 +18,7 @@ import wind.common.core.service.ConfigService;
 import wind.common.exception.ServiceException;
 import wind.common.utils.StringUtils;
 import wind.common.utils.redis.CacheUtils;
-import wind.system.domain.SysConfig;
+import wind.system.entity.SysConfig;
 import wind.system.mapper.SysConfigMapper;
 import wind.system.service.ISysConfigService;
 
@@ -41,11 +41,11 @@ public class SysConfigServiceImpl implements ISysConfigService, ConfigService {
     public TableDataInfo<SysConfig> selectPageConfigList(SysConfig config, PageQuery pageQuery) {
         Map<String, Object> params = config.getParams();
         LambdaQueryWrapper<SysConfig> lqw = new LambdaQueryWrapper<SysConfig>()
-            .like(StringUtils.isNotBlank(config.getName()), SysConfig::getName, config.getName())
-            .eq(ObjectUtil.isNotNull(config.getType()), SysConfig::getType, config.getType())
-            .like(StringUtils.isNotBlank(config.getCode()), SysConfig::getCode, config.getCode())
-            .between(params.get("beginTime") != null && params.get("endTime") != null,
-                SysConfig::getCreateTime, params.get("beginTime"), params.get("endTime"));
+                .like(StringUtils.isNotBlank(config.getName()), SysConfig::getName, config.getName())
+                .eq(ObjectUtil.isNotNull(config.getType()), SysConfig::getType, config.getType())
+                .like(StringUtils.isNotBlank(config.getCode()), SysConfig::getCode, config.getCode())
+                .between(params.get("beginTime") != null && params.get("endTime") != null,
+                        SysConfig::getCreateTime, params.get("beginTime"), params.get("endTime"));
         Page<SysConfig> page = baseMapper.selectPage(pageQuery.build(), lqw);
         return TableDataInfo.build(page);
     }
@@ -72,7 +72,7 @@ public class SysConfigServiceImpl implements ISysConfigService, ConfigService {
     @Override
     public String selectConfigByCode(String code) {
         SysConfig retConfig = baseMapper.selectOne(new LambdaQueryWrapper<SysConfig>()
-            .eq(SysConfig::getCode, code));
+                .eq(SysConfig::getCode, code));
         if (ObjectUtil.isNotNull(retConfig)) {
             return retConfig.getValue();
         }
@@ -103,11 +103,11 @@ public class SysConfigServiceImpl implements ISysConfigService, ConfigService {
     public List<SysConfig> selectConfigList(SysConfig config) {
         Map<String, Object> params = config.getParams();
         LambdaQueryWrapper<SysConfig> lqw = new LambdaQueryWrapper<SysConfig>()
-            .like(StringUtils.isNotBlank(config.getName()), SysConfig::getName, config.getName())
-            .eq(ObjectUtil.isNotNull(config.getType()), SysConfig::getType, config.getType())
-            .like(StringUtils.isNotBlank(config.getCode()), SysConfig::getCode, config.getCode())
-            .between(params.get("beginTime") != null && params.get("endTime") != null,
-                SysConfig::getCreateTime, params.get("beginTime"), params.get("endTime"));
+                .like(StringUtils.isNotBlank(config.getName()), SysConfig::getName, config.getName())
+                .eq(ObjectUtil.isNotNull(config.getType()), SysConfig::getType, config.getType())
+                .like(StringUtils.isNotBlank(config.getCode()), SysConfig::getCode, config.getCode())
+                .between(params.get("beginTime") != null && params.get("endTime") != null,
+                        SysConfig::getCreateTime, params.get("beginTime"), params.get("endTime"));
         return baseMapper.selectList(lqw);
     }
 
@@ -141,7 +141,7 @@ public class SysConfigServiceImpl implements ISysConfigService, ConfigService {
             row = baseMapper.updateById(config);
         } else {
             row = baseMapper.update(config, new LambdaQueryWrapper<SysConfig>()
-                .eq(SysConfig::getCode, config.getCode()));
+                    .eq(SysConfig::getCode, config.getCode()));
         }
         if (row > 0) {
             return config.getValue();
@@ -173,7 +173,7 @@ public class SysConfigServiceImpl implements ISysConfigService, ConfigService {
     public void loadingConfigCache() {
         List<SysConfig> configsList = selectConfigList(new SysConfig());
         configsList.forEach(config ->
-            CacheUtils.put(CacheNames.SYS_CONFIG, config.getCode(), config.getValue()));
+                CacheUtils.put(CacheNames.SYS_CONFIG, config.getCode(), config.getValue()));
     }
 
     /**

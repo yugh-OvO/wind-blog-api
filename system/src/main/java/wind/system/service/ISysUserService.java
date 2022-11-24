@@ -2,7 +2,7 @@ package wind.system.service;
 
 import wind.common.core.domain.PageQuery;
 import wind.common.core.page.TableDataInfo;
-import wind.system.domain.SysUser;
+import wind.system.entity.SysUser;
 
 /**
  * 用户 业务层

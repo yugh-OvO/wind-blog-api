@@ -1,7 +1,7 @@
-package wind.blog.es;
+package wind.blog.es.mapper;
 
 import cn.easyes.core.conditions.interfaces.BaseEsMapper;
-import wind.blog.model.Article;
+import wind.blog.es.domain.ArticleEs;
 
 /**
  * 文章Mapper接口
@@ -9,5 +9,5 @@ import wind.blog.model.Article;
  * @author Yu Gaoheng
  * @date 2022-11-21
  */
-public interface ArticleEsMapper extends BaseEsMapper<Article> {
+public interface ArticleEsMapper extends BaseEsMapper<ArticleEs> {
 }

@@ -12,7 +12,7 @@ import wind.common.core.domain.Result;
 import wind.common.enums.BusinessType;
 import wind.common.helper.LoginHelper;
 import wind.common.utils.StringUtils;
-import wind.system.domain.SysUser;
+import wind.system.entity.SysUser;
 import wind.system.service.ISysUserService;
 
 import java.util.Map;
@@ -49,11 +49,11 @@ public class SysProfileController extends BaseController {
     @PutMapping
     public Result<Void> updateProfile(@RequestBody SysUser user) {
         if (StringUtils.isNotEmpty(user.getMobile())
-            && UserConstants.NOT_UNIQUE.equals(userService.checkPhoneUnique(user))) {
+                && UserConstants.NOT_UNIQUE.equals(userService.checkPhoneUnique(user))) {
             return Result.fail("修改用户'" + user.getUsername() + "'失败，手机号码已存在");
         }
         if (StringUtils.isNotEmpty(user.getEmail())
-            && UserConstants.NOT_UNIQUE.equals(userService.checkEmailUnique(user))) {
+                && UserConstants.NOT_UNIQUE.equals(userService.checkEmailUnique(user))) {
             return Result.fail("修改用户'" + user.getUsername() + "'失败，邮箱账号已存在");
         }
         user.setId(getUserId());
@@ -77,9 +77,6 @@ public class SysProfileController extends BaseController {
         SysUser user = userService.selectUserById(LoginHelper.getUserId());
         String username = user.getUsername();
         String password = user.getPassword();
-        System.out.println("password = " + password);
-        System.out.println("oldPassword = " + oldPassword);
-        System.out.println("newPassword = " + newPassword);
         if (!BCrypt.checkpw(oldPassword, password)) {
             return Result.fail("修改密码失败，旧密码错误");
         }

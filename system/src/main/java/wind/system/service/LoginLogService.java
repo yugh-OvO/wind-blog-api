@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import wind.common.core.domain.PageQuery;
 import wind.common.core.page.TableDataInfo;
 import wind.common.utils.StringUtils;
-import wind.system.domain.SysLoginLog;
+import wind.system.entity.SysLoginLog;
 import wind.system.mapper.SysLoginLogMapper;
 
 import javax.servlet.http.HttpServletRequest;
@@ -80,11 +80,11 @@ public class LoginLogService {
     public TableDataInfo<SysLoginLog> list(SysLoginLog loginLog, PageQuery pageQuery) {
         Map<String, Object> params = loginLog.getParams();
         LambdaQueryWrapper<SysLoginLog> lqw = new LambdaQueryWrapper<SysLoginLog>()
-            .like(StringUtils.isNotBlank(loginLog.getIpaddr()), SysLoginLog::getIpaddr, loginLog.getIpaddr())
-            .eq(StringUtils.isNotBlank(loginLog.getStatus()), SysLoginLog::getStatus, loginLog.getStatus())
-            .like(StringUtils.isNotBlank(loginLog.getUserName()), SysLoginLog::getUserName, loginLog.getUserName())
-            .between(params.get("beginTime") != null && params.get("endTime") != null,
-                SysLoginLog::getLoginTime, params.get("beginTime"), params.get("endTime"));
+                .like(StringUtils.isNotBlank(loginLog.getIpaddr()), SysLoginLog::getIpaddr, loginLog.getIpaddr())
+                .eq(StringUtils.isNotBlank(loginLog.getStatus()), SysLoginLog::getStatus, loginLog.getStatus())
+                .like(StringUtils.isNotBlank(loginLog.getUserName()), SysLoginLog::getUserName, loginLog.getUserName())
+                .between(params.get("beginTime") != null && params.get("endTime") != null,
+                        SysLoginLog::getLoginTime, params.get("beginTime"), params.get("endTime"));
         if (StringUtils.isBlank(pageQuery.getOrderByColumn())) {
             pageQuery.setOrderByColumn("info_id");
             pageQuery.setIsAsc("desc");

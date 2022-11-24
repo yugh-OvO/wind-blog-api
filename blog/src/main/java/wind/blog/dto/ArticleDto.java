@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
  */
 
 @Data
-public class ArticleSubmitDto {
+public class ArticleDto {
 
     @NotNull(message = "不能为空", groups = {EditGroup.class})
     private Long id;

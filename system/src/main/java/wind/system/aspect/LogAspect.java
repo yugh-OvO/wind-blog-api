@@ -1,8 +1,9 @@
-package wind.common.aspect;
+package wind.system.aspect;
 
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ObjectUtil;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -14,14 +15,13 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.HandlerMapping;
 import wind.common.annotation.Log;
 import wind.common.constant.GlobalConstants;
-import wind.common.core.domain.dto.OperationLogDTO;
-import wind.common.core.service.OperationLogService;
 import wind.common.enums.HttpMethod;
 import wind.common.helper.LoginHelper;
 import wind.common.utils.JsonUtils;
 import wind.common.utils.ServletUtils;
 import wind.common.utils.StringUtils;
-import wind.common.utils.spring.SpringUtils;
+import wind.system.dto.OperationLogDto;
+import wind.system.service.OperationLogService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,12 +36,15 @@ import java.util.Map;
 @Slf4j
 @Aspect
 @Component
+@RequiredArgsConstructor
 public class LogAspect {
 
     /**
      * 排除敏感属性字段
      */
     public static final String[] EXCLUDE_PROPERTIES = {"password", "oldPassword", "newPassword", "confirmPassword"};
+
+    private final OperationLogService operationLogService;
 
     /**
      * 处理完请求后执行
@@ -68,7 +71,7 @@ public class LogAspect {
         try {
 
             // *========数据库日志=========*//
-            OperationLogDTO operationLog = new OperationLogDTO();
+            OperationLogDto operationLog = new OperationLogDto();
             operationLog.setStatus(GlobalConstants.SUCCESS);
             // 请求的地址
             String ip = ServletUtils.getClientIp();
@@ -89,7 +92,7 @@ public class LogAspect {
             // 处理设置注解上的参数
             getControllerMethodDescription(joinPoint, controllerLog, operationLog, jsonResult);
             // 保存数据库
-            SpringUtils.getBean(OperationLogService.class).recordOperation(operationLog);
+            operationLogService.recordOperation(operationLog);
         } catch (Exception exp) {
             // 记录本地异常日志
             log.error("==前置通知异常==");
@@ -105,7 +108,7 @@ public class LogAspect {
      * @param operationLog 操作日志
      * @throws Exception 异常
      */
-    public void getControllerMethodDescription(JoinPoint joinPoint, Log log, OperationLogDTO operationLog, Object jsonResult) throws Exception {
+    public void getControllerMethodDescription(JoinPoint joinPoint, Log log, OperationLogDto operationLog, Object jsonResult) throws Exception {
         // 设置action动作
         operationLog.setBusinessType(log.businessType().ordinal());
         // 设置标题
@@ -129,7 +132,7 @@ public class LogAspect {
      * @param operationLog 操作日志
      * @throws Exception 异常
      */
-    private void setRequestValue(JoinPoint joinPoint, OperationLogDTO operationLog) throws Exception {
+    private void setRequestValue(JoinPoint joinPoint, OperationLogDto operationLog) throws Exception {
         String requestMethod = operationLog.getRequestMethod();
         if (HttpMethod.PUT.name().equals(requestMethod) || HttpMethod.POST.name().equals(requestMethod)) {
             String params = argsArrayToString(joinPoint.getArgs());
@@ -189,6 +192,6 @@ public class LogAspect {
             }
         }
         return o instanceof MultipartFile || o instanceof HttpServletRequest || o instanceof HttpServletResponse
-            || o instanceof BindingResult;
+                || o instanceof BindingResult;
     }
 }

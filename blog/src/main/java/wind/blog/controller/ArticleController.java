@@ -4,8 +4,8 @@ import cn.dev33.satoken.annotation.SaCheckPermission;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import wind.blog.dto.ArticleQueryDto;
-import wind.blog.dto.ArticleSubmitDto;
+import wind.blog.dto.ArticleDto;
+import wind.blog.dto.query.ArticleQueryDto;
 import wind.blog.service.ArticleService;
 import wind.blog.vo.ArticleVo;
 import wind.common.annotation.Log;
@@ -51,7 +51,7 @@ public class ArticleController extends BaseController {
     @SaCheckPermission("articleList")
     @GetMapping("/find")
     public Result<ArticleVo> getInfo(@NotNull(message = "主键不能为空")
-                                  @RequestParam Integer id) {
+                                     @RequestParam Integer id) {
         return Result.ok(service.find(id));
     }
 
@@ -59,7 +59,7 @@ public class ArticleController extends BaseController {
     @RepeatSubmit()
     @Log(title = "文章管理", businessType = BusinessType.INSERT)
     @PostMapping("/create")
-    public Result<Void> create(@Validated(AddGroup.class) @RequestBody ArticleSubmitDto dto) {
+    public Result<Void> create(@Validated(AddGroup.class) @RequestBody ArticleDto dto) {
         return toAjax(service.create(dto) ? 1 : 0);
     }
 
@@ -67,7 +67,7 @@ public class ArticleController extends BaseController {
     @RepeatSubmit()
     @Log(title = "文章管理", businessType = BusinessType.UPDATE)
     @PutMapping("/update")
-    public Result<Void> edit(@Validated(EditGroup.class) @RequestBody ArticleSubmitDto dto) {
+    public Result<Void> edit(@Validated(EditGroup.class) @RequestBody ArticleDto dto) {
         return toAjax(service.update(dto) ? 1 : 0);
     }
 

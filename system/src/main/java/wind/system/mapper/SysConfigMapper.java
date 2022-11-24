@@ -1,7 +1,7 @@
 package wind.system.mapper;
 
 import wind.common.core.mapper.BaseMapperPlus;
-import wind.system.domain.SysConfig;
+import wind.system.entity.SysConfig;
 
 /**
  * 参数配置 数据层

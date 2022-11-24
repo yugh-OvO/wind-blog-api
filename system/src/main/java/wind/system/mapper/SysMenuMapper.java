@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.toolkit.Constants;
 import org.apache.ibatis.annotations.Param;
 import wind.common.constant.UserConstants;
 import wind.common.core.mapper.BaseMapperPlus;
-import wind.system.domain.SysMenu;
+import wind.system.entity.SysMenu;
 
 import java.util.List;
 
@@ -55,9 +55,9 @@ public interface SysMenuMapper extends BaseMapperPlus<SysMenuMapper, SysMenu, Sy
      */
     default List<SysMenu> selectMenuTreeAll() {
         LambdaQueryWrapper<SysMenu> lqw = new LambdaQueryWrapper<SysMenu>()
-            .in(SysMenu::getType, UserConstants.TYPE_DIR, UserConstants.TYPE_MENU)
-            .orderByAsc(SysMenu::getParentId)
-            .orderByAsc(SysMenu::getSort);
+                .in(SysMenu::getType, UserConstants.TYPE_DIR, UserConstants.TYPE_MENU)
+                .orderByAsc(SysMenu::getParentId)
+                .orderByAsc(SysMenu::getSort);
         return this.selectList(lqw);
     }
 

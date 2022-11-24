@@ -13,9 +13,9 @@ import wind.common.core.domain.OptionEntity;
 import wind.common.core.domain.PageQuery;
 import wind.common.core.page.TableDataInfo;
 import wind.common.exception.ServiceException;
-import wind.system.domain.SysRole;
-import wind.system.domain.SysRoleMenu;
-import wind.system.domain.SysUserRole;
+import wind.system.entity.SysRole;
+import wind.system.entity.SysRoleMenu;
+import wind.system.entity.SysUserRole;
 import wind.system.mapper.SysRoleMapper;
 import wind.system.mapper.SysRoleMenuMapper;
 import wind.system.mapper.SysUserRoleMapper;
@@ -105,8 +105,8 @@ public class SysRoleServiceImpl implements ISysRoleService {
     @Override
     public String checkRoleNameUnique(SysRole role) {
         boolean exist = baseMapper.exists(new LambdaQueryWrapper<SysRole>()
-            .eq(SysRole::getName, role.getName())
-            .ne(ObjectUtil.isNotNull(role.getId()), SysRole::getId, role.getId()));
+                .eq(SysRole::getName, role.getName())
+                .ne(ObjectUtil.isNotNull(role.getId()), SysRole::getId, role.getId()));
         if (exist) {
             return UserConstants.NOT_UNIQUE;
         }

@@ -24,7 +24,7 @@ import wind.common.helper.LoginHelper;
 import wind.common.utils.ServletUtils;
 import wind.common.utils.StringUtils;
 import wind.common.utils.redis.RedisUtils;
-import wind.system.domain.SysUser;
+import wind.system.entity.SysUser;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.Duration;

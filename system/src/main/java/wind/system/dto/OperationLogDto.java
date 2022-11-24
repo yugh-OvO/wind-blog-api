@@ -1,24 +1,23 @@
-package wind.common.core.domain.dto;
+package wind.system.dto;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
-import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 通用操作日志实体
+ * 操作日志
  *
  * @author Yu Gaoheng
  */
-
 @Data
-public class OperationLogDTO implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class OperationLogDto {
 
     /**
      * 日志主键
      */
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     /**
@@ -30,11 +29,6 @@ public class OperationLogDTO implements Serializable {
      * 业务类型（0其它 1新增 2修改 3删除）
      */
     private Integer businessType;
-
-    /**
-     * 业务类型数组
-     */
-    private Integer[] businessTypes;
 
     /**
      * 请求方法

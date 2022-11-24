@@ -1,7 +1,7 @@
 package wind.system.mapper;
 
 import wind.common.core.mapper.BaseMapperPlus;
-import wind.system.domain.SysRole;
+import wind.system.entity.SysRole;
 
 import java.util.List;
 

@@ -173,7 +173,7 @@ public class BeanCopyUtils {
          */
         private String genKey(Class<?> srcClass, Class<?> targetClass, Converter converter) {
             final StringBuilder key = StrUtil.builder()
-                .append(srcClass.getName()).append('#').append(targetClass.getName());
+                    .append(srcClass.getName()).append('#').append(targetClass.getName());
             if (null != converter) {
                 key.append('#').append(converter.getClass().getName());
             }

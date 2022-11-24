@@ -10,7 +10,8 @@ import wind.common.core.controller.BaseController;
 import wind.common.core.domain.PageQuery;
 import wind.common.core.domain.Result;
 import wind.common.core.page.TableDataInfo;
-import wind.system.domain.SysOperationLog;
+import wind.system.entity.OperationLog;
+import wind.system.queryDto.OperationLogQueryDto;
 import wind.system.service.OperationLogService;
 
 /**
@@ -22,7 +23,7 @@ import wind.system.service.OperationLogService;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/system/operationLog")
-public class SysOperationLogController extends BaseController {
+public class OperationLogController extends BaseController {
 
     private final OperationLogService service;
 
@@ -31,7 +32,7 @@ public class SysOperationLogController extends BaseController {
      */
     @SaCheckPermission("operationLogList")
     @GetMapping("/list")
-    public Result<TableDataInfo<SysOperationLog>> list(SysOperationLog operationLog, PageQuery pageQuery) {
+    public Result<TableDataInfo<OperationLog>> list(OperationLogQueryDto operationLog, PageQuery pageQuery) {
         return Result.ok(service.list(operationLog, pageQuery));
     }
 

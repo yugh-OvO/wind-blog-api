@@ -1,4 +1,4 @@
-package wind.blog.dto;
+package wind.blog.dto.query;
 
 import lombok.Data;
 

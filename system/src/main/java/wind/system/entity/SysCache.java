@@ -1,4 +1,4 @@
-package wind.system.domain;
+package wind.system.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

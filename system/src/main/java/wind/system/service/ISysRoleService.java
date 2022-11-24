@@ -3,7 +3,7 @@ package wind.system.service;
 import wind.common.core.domain.OptionEntity;
 import wind.common.core.domain.PageQuery;
 import wind.common.core.page.TableDataInfo;
-import wind.system.domain.SysRole;
+import wind.system.entity.SysRole;
 
 import java.util.List;
 import java.util.Set;
