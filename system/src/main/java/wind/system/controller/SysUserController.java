@@ -19,8 +19,8 @@ import wind.common.helper.LoginHelper;
 import wind.common.utils.StreamUtils;
 import wind.system.entity.SysRole;
 import wind.system.entity.SysUser;
-import wind.system.service.ISysRoleService;
-import wind.system.service.ISysUserService;
+import wind.system.service.RoleService;
+import wind.system.service.UserService;
 
 import java.util.List;
 import java.util.Map;
@@ -36,8 +36,8 @@ import java.util.Map;
 @RequestMapping("/system/user")
 public class SysUserController extends BaseController {
 
-    private final ISysUserService userService;
-    private final ISysRoleService roleService;
+    private final UserService userService;
+    private final RoleService roleService;
 
     /**
      * 获取用户列表

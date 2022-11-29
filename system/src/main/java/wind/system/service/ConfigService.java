@@ -1,4 +1,4 @@
-package wind.system.service.impl;
+package wind.system.service;
 
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.NumberUtil;
@@ -20,7 +20,6 @@ import wind.common.utils.StringUtils;
 import wind.common.utils.redis.CacheUtils;
 import wind.system.entity.SysConfig;
 import wind.system.mapper.SysConfigMapper;
-import wind.system.service.ISysConfigService;
 
 import java.util.Arrays;
 import java.util.List;
@@ -33,11 +32,10 @@ import java.util.Map;
  */
 @RequiredArgsConstructor
 @Service
-public class SysConfigServiceImpl implements ISysConfigService {
+public class ConfigService {
 
     private final SysConfigMapper baseMapper;
 
-    @Override
     public Paging<SysConfig> selectPageConfigList(SysConfig config, PageQuery pageQuery) {
         Map<String, Object> params = config.getParams();
         LambdaQueryWrapper<SysConfig> lqw = new LambdaQueryWrapper<SysConfig>()
@@ -56,7 +54,6 @@ public class SysConfigServiceImpl implements ISysConfigService {
      * @param configId 参数配置ID
      * @return 参数配置信息
      */
-    @Override
     @DS("master")
     public SysConfig selectConfigById(Long configId) {
         return baseMapper.selectById(configId);
@@ -69,7 +66,6 @@ public class SysConfigServiceImpl implements ISysConfigService {
      * @return 参数键值
      */
     @Cacheable(cacheNames = CacheNames.SYS_CONFIG, key = "#code")
-    @Override
     public String selectConfigByCode(String code) {
         SysConfig retConfig = baseMapper.selectOne(new LambdaQueryWrapper<SysConfig>()
                 .eq(SysConfig::getCode, code));
@@ -84,7 +80,6 @@ public class SysConfigServiceImpl implements ISysConfigService {
      *
      * @return true开启，false关闭
      */
-    @Override
     public boolean selectCaptchaEnabled() {
         String captchaEnabled = selectConfigByCode("sys.account.captchaEnabled");
         if (StrUtil.isEmpty(captchaEnabled)) {
@@ -99,7 +94,6 @@ public class SysConfigServiceImpl implements ISysConfigService {
      * @param config 参数配置信息
      * @return 参数配置集合
      */
-    @Override
     public List<SysConfig> selectConfigList(SysConfig config) {
         Map<String, Object> params = config.getParams();
         LambdaQueryWrapper<SysConfig> lqw = new LambdaQueryWrapper<SysConfig>()
@@ -118,7 +112,6 @@ public class SysConfigServiceImpl implements ISysConfigService {
      * @return 结果
      */
     @CachePut(cacheNames = CacheNames.SYS_CONFIG, key = "#config.code")
-    @Override
     public String insertConfig(SysConfig config) {
         int row = baseMapper.insert(config);
         if (row > 0) {
@@ -134,7 +127,6 @@ public class SysConfigServiceImpl implements ISysConfigService {
      * @return 结果
      */
     @CachePut(cacheNames = CacheNames.SYS_CONFIG, key = "#config.code")
-    @Override
     public String updateConfig(SysConfig config) {
         int row;
         if (config.getId() != null) {
@@ -154,7 +146,6 @@ public class SysConfigServiceImpl implements ISysConfigService {
      *
      * @param configIds 需要删除的参数ID
      */
-    @Override
     public void deleteConfigByIds(Long[] configIds) {
         for (Long configId : configIds) {
             SysConfig config = selectConfigById(configId);
@@ -169,7 +160,6 @@ public class SysConfigServiceImpl implements ISysConfigService {
     /**
      * 加载参数缓存数据
      */
-    @Override
     public void loadingConfigCache() {
         List<SysConfig> configsList = selectConfigList(new SysConfig());
         configsList.forEach(config ->
@@ -179,7 +169,6 @@ public class SysConfigServiceImpl implements ISysConfigService {
     /**
      * 清空参数缓存数据
      */
-    @Override
     public void clearConfigCache() {
         CacheUtils.clear(CacheNames.SYS_CONFIG);
     }
@@ -187,7 +176,6 @@ public class SysConfigServiceImpl implements ISysConfigService {
     /**
      * 重置参数缓存数据
      */
-    @Override
     public void resetConfigCache() {
         clearConfigCache();
         loadingConfigCache();
@@ -199,7 +187,6 @@ public class SysConfigServiceImpl implements ISysConfigService {
      * @param config 参数配置信息
      * @return 结果
      */
-    @Override
     public String checkConfigCodeUnique(SysConfig config) {
         Long configId = ObjectUtil.isNull(config.getId()) ? -1L : config.getId();
         SysConfig info = baseMapper.selectOne(new LambdaQueryWrapper<SysConfig>().eq(SysConfig::getCode, config.getCode()));
@@ -215,7 +202,6 @@ public class SysConfigServiceImpl implements ISysConfigService {
      * @param code 参数 key
      * @return 参数值
      */
-    @Override
     public String getValue(String code) {
         return selectConfigByCode(code);
     }

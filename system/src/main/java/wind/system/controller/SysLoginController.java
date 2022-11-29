@@ -13,9 +13,9 @@ import wind.common.core.domain.Result;
 import wind.common.core.domain.model.LoginBody;
 import wind.common.helper.LoginHelper;
 import wind.system.entity.SysUser;
-import wind.system.service.ISysUserService;
-import wind.system.service.SysLoginService;
-import wind.system.service.SysPermissionService;
+import wind.system.service.LoginService;
+import wind.system.service.PermissionService;
+import wind.system.service.UserService;
 
 import java.util.Map;
 
@@ -29,9 +29,9 @@ import java.util.Map;
 @RestController
 public class SysLoginController {
 
-    private final SysLoginService loginService;
-    private final ISysUserService userService;
-    private final SysPermissionService permissionService;
+    private final LoginService loginService;
+    private final UserService userService;
+    private final PermissionService permissionService;
 
     /**
      * 登录方法

@@ -17,10 +17,10 @@ import wind.common.enums.BusinessType;
 import wind.common.helper.LoginHelper;
 import wind.system.entity.SysRole;
 import wind.system.entity.SysUser;
-import wind.system.service.ISysMenuService;
-import wind.system.service.ISysRoleService;
-import wind.system.service.ISysUserService;
-import wind.system.service.SysPermissionService;
+import wind.system.service.MenuService;
+import wind.system.service.PermissionService;
+import wind.system.service.RoleService;
+import wind.system.service.UserService;
 
 import java.util.List;
 
@@ -35,10 +35,10 @@ import java.util.List;
 @RequestMapping("/system/role")
 public class SysRoleController extends BaseController {
 
-    private final ISysRoleService roleService;
-    private final ISysUserService userService;
-    private final SysPermissionService permissionService;
-    private final ISysMenuService menuService;
+    private final RoleService roleService;
+    private final UserService userService;
+    private final PermissionService permissionService;
+    private final MenuService menuService;
 
     /**
      * 获取角色信息列表

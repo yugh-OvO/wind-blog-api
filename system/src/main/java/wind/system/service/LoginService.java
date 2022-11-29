@@ -39,12 +39,12 @@ import java.util.function.Supplier;
 @RequiredArgsConstructor
 @Slf4j
 @Service
-public class SysLoginService {
+public class LoginService {
 
-    private final ISysUserService userService;
-    private final ISysConfigService configService;
+    private final UserService userService;
+    private final ConfigService configService;
     private final LoginLogService loginLogService;
-    private final SysPermissionService permissionService;
+    private final PermissionService permissionService;
 
     @Value("${user.password.maxRetryCount}")
     private Integer maxRetryCount;

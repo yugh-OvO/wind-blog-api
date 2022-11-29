@@ -1,4 +1,4 @@
-package wind.system.service.impl;
+package wind.system.service;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.tree.Tree;
@@ -20,7 +20,6 @@ import wind.system.entity.SysRoleMenu;
 import wind.system.mapper.SysMenuMapper;
 import wind.system.mapper.SysRoleMapper;
 import wind.system.mapper.SysRoleMenuMapper;
-import wind.system.service.ISysMenuService;
 
 import java.util.*;
 
@@ -31,7 +30,7 @@ import java.util.*;
  */
 @RequiredArgsConstructor
 @Service
-public class SysMenuServiceImpl implements ISysMenuService {
+public class MenuService {
 
     private final SysMenuMapper baseMapper;
     private final SysRoleMapper roleMapper;
@@ -43,7 +42,6 @@ public class SysMenuServiceImpl implements ISysMenuService {
      * @param userId 用户ID
      * @return 菜单列表
      */
-    @Override
     public List<SysMenu> selectMenuList(Integer userId) {
         return selectMenuList(new SysMenu(), userId);
     }
@@ -54,7 +52,6 @@ public class SysMenuServiceImpl implements ISysMenuService {
      * @param menu 菜单信息
      * @return 菜单列表
      */
-    @Override
     public List<SysMenu> selectMenuList(SysMenu menu, Integer userId) {
         List<SysMenu> menuList = null;
         // 管理员显示所有菜单信息
@@ -78,7 +75,6 @@ public class SysMenuServiceImpl implements ISysMenuService {
      * @param userId 用户ID
      * @return 权限列表
      */
-    @Override
     public Set<String> selectMenuPermsByUserId(Integer userId) {
         List<String> perms = baseMapper.selectMenuPermsByUserId(userId);
         Set<String> permsSet = new HashSet<>();
@@ -96,7 +92,6 @@ public class SysMenuServiceImpl implements ISysMenuService {
      * @param roleId 角色ID
      * @return 权限列表
      */
-    @Override
     public Set<String> selectMenuPermsByRoleId(Integer roleId) {
         List<String> perms = roleId == 0 ? baseMapper.selectMenuPerms() : baseMapper.selectMenuPermsByRoleId(roleId);
         Set<String> permsSet = new HashSet<>();
@@ -114,7 +109,6 @@ public class SysMenuServiceImpl implements ISysMenuService {
      * @param userId 用户名称
      * @return 菜单列表
      */
-    @Override
     public List<SysMenu> selectMenuTreeByUserId(Integer userId) {
         List<SysMenu> menus = null;
         if (LoginHelper.isAdmin(userId)) {
@@ -131,7 +125,6 @@ public class SysMenuServiceImpl implements ISysMenuService {
      * @param roleId 角色ID
      * @return 选中菜单列表
      */
-    @Override
     public List<Integer> selectMenuListByRoleId(Integer roleId) {
         SysRole role = roleMapper.selectById(roleId);
         return baseMapper.selectMenuListByRoleId(roleId);
@@ -143,7 +136,6 @@ public class SysMenuServiceImpl implements ISysMenuService {
      * @param menus 菜单列表
      * @return 下拉树结构列表
      */
-    @Override
     public List<Tree<Integer>> buildMenuTreeOptions(List<SysMenu> menus) {
         if (CollUtil.isEmpty(menus)) {
             return CollUtil.newArrayList();
@@ -163,7 +155,6 @@ public class SysMenuServiceImpl implements ISysMenuService {
      * @param menuId 菜单ID
      * @return 菜单信息
      */
-    @Override
     public SysMenu selectMenuById(Integer menuId) {
         return baseMapper.selectById(menuId);
     }
@@ -174,7 +165,6 @@ public class SysMenuServiceImpl implements ISysMenuService {
      * @param menuId 菜单ID
      * @return 结果
      */
-    @Override
     public boolean hasChildByMenuId(Integer menuId) {
         return baseMapper.exists(new LambdaQueryWrapper<SysMenu>().eq(SysMenu::getParentId, menuId));
     }
@@ -185,7 +175,6 @@ public class SysMenuServiceImpl implements ISysMenuService {
      * @param menuId 菜单ID
      * @return 结果
      */
-    @Override
     public boolean checkMenuExistRole(Integer menuId) {
         return roleMenuMapper.exists(new LambdaQueryWrapper<SysRoleMenu>().eq(SysRoleMenu::getMenuId, menuId));
     }
@@ -196,7 +185,6 @@ public class SysMenuServiceImpl implements ISysMenuService {
      * @param menu 菜单信息
      * @return 结果
      */
-    @Override
     public int insertMenu(SysMenu menu) {
         return baseMapper.insert(menu);
     }
@@ -207,7 +195,6 @@ public class SysMenuServiceImpl implements ISysMenuService {
      * @param menu 菜单信息
      * @return 结果
      */
-    @Override
     public int updateMenu(SysMenu menu) {
         return baseMapper.updateById(menu);
     }
@@ -218,7 +205,6 @@ public class SysMenuServiceImpl implements ISysMenuService {
      * @param menuId 菜单ID
      * @return 结果
      */
-    @Override
     public int deleteMenuById(Integer menuId) {
         return baseMapper.deleteById(menuId);
     }
@@ -229,7 +215,6 @@ public class SysMenuServiceImpl implements ISysMenuService {
      * @param menu 菜单信息
      * @return 结果
      */
-    @Override
     public String checkMenuNameUnique(SysMenu menu) {
         boolean exist = baseMapper.exists(new LambdaQueryWrapper<SysMenu>()
                 .eq(SysMenu::getName, menu.getName())

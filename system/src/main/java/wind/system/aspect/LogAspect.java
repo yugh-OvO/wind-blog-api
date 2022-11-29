@@ -20,7 +20,7 @@ import wind.common.enums.HttpMethod;
 import wind.common.helper.LoginHelper;
 import wind.common.utils.ServletUtils;
 import wind.common.utils.StringUtils;
-import wind.system.dto.OperationLogDto;
+import wind.system.dto.OperationLogDTO;
 import wind.system.service.OperationLogService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -71,7 +71,7 @@ public class LogAspect {
         try {
 
             // *========数据库日志=========*//
-            OperationLogDto operationLog = new OperationLogDto();
+            OperationLogDTO operationLog = new OperationLogDTO();
             operationLog.setStatus(GlobalConstants.SUCCESS);
             // 请求的地址
             String ip = ServletUtils.getClientIp();
@@ -108,7 +108,7 @@ public class LogAspect {
      * @param operationLog 操作日志
      * @throws Exception 异常
      */
-    public void getControllerMethodDescription(JoinPoint joinPoint, Log log, OperationLogDto operationLog, Object jsonResult) throws Exception {
+    public void getControllerMethodDescription(JoinPoint joinPoint, Log log, OperationLogDTO operationLog, Object jsonResult) throws Exception {
         // 设置action动作
         operationLog.setBusinessType(log.businessType().ordinal());
         // 设置标题
@@ -132,7 +132,7 @@ public class LogAspect {
      * @param operationLog 操作日志
      * @throws Exception 异常
      */
-    private void setRequestValue(JoinPoint joinPoint, OperationLogDto operationLog) throws Exception {
+    private void setRequestValue(JoinPoint joinPoint, OperationLogDTO operationLog) throws Exception {
         String requestMethod = operationLog.getRequestMethod();
         if (HttpMethod.PUT.name().equals(requestMethod) || HttpMethod.POST.name().equals(requestMethod)) {
             String params = argsArrayToString(joinPoint.getArgs());

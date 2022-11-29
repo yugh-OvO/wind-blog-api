@@ -1,4 +1,4 @@
-package wind.system.queryDto;
+package wind.system.query;
 
 import lombok.Data;
 
@@ -8,7 +8,7 @@ import lombok.Data;
  * @author Yu Gaoheng
  */
 @Data
-public class OperationLogQueryDto {
+public class OperationLogQuery {
 
     /**
      * 操作模块

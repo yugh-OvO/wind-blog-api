@@ -13,7 +13,7 @@ import wind.common.core.domain.Result;
 import wind.common.enums.BusinessType;
 import wind.common.helper.LoginHelper;
 import wind.system.entity.SysUser;
-import wind.system.service.ISysUserService;
+import wind.system.service.UserService;
 
 import java.util.Map;
 
@@ -28,7 +28,7 @@ import java.util.Map;
 @RequestMapping("/system/user/profile")
 public class SysProfileController extends BaseController {
 
-    private final ISysUserService userService;
+    private final UserService userService;
 
     /**
      * 个人信息

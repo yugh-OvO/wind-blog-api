@@ -1,4 +1,4 @@
-package wind.system.service.impl;
+package wind.system.service;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -19,7 +19,6 @@ import wind.system.entity.SysUserRole;
 import wind.system.mapper.SysRoleMapper;
 import wind.system.mapper.SysRoleMenuMapper;
 import wind.system.mapper.SysUserRoleMapper;
-import wind.system.service.ISysRoleService;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -31,13 +30,12 @@ import java.util.stream.Collectors;
  */
 @RequiredArgsConstructor
 @Service
-public class SysRoleServiceImpl implements ISysRoleService {
+public class RoleService {
 
     private final SysRoleMapper baseMapper;
     private final SysRoleMenuMapper roleMenuMapper;
     private final SysUserRoleMapper userRoleMapper;
 
-    @Override
     public Paging<SysRole> selectPageRoleList(SysRole role, PageQuery pageQuery) {
         LambdaQueryWrapper<SysRole> lqw = buildQueryWrapper(role);
         lqw.orderByDesc(SysRole::getId);
@@ -58,7 +56,6 @@ public class SysRoleServiceImpl implements ISysRoleService {
      * @param userId 用户ID
      * @return 角色列表
      */
-    @Override
     public List<SysRole> selectRolesByUserId(Integer userId) {
         return baseMapper.selectRolePermissionByUserId(userId);
     }
@@ -69,7 +66,6 @@ public class SysRoleServiceImpl implements ISysRoleService {
      * @param userId 用户ID
      * @return 权限列表
      */
-    @Override
     public Set<String> selectRolePermissionByUserId(Integer userId) {
         Set<String> permsSet = new HashSet<>();
         return permsSet;
@@ -80,7 +76,6 @@ public class SysRoleServiceImpl implements ISysRoleService {
      *
      * @return 角色列表
      */
-    @Override
     public List<SysRole> selectRoleAll() {
         return baseMapper.selectList(null);
     }
@@ -91,7 +86,6 @@ public class SysRoleServiceImpl implements ISysRoleService {
      * @param roleId 角色ID
      * @return 角色对象信息
      */
-    @Override
     public SysRole selectRoleById(Integer roleId) {
         return baseMapper.selectById(roleId);
     }
@@ -102,7 +96,6 @@ public class SysRoleServiceImpl implements ISysRoleService {
      * @param role 角色信息
      * @return 结果
      */
-    @Override
     public String checkRoleNameUnique(SysRole role) {
         boolean exist = baseMapper.exists(new LambdaQueryWrapper<SysRole>()
                 .eq(SysRole::getName, role.getName())
@@ -118,7 +111,6 @@ public class SysRoleServiceImpl implements ISysRoleService {
      *
      * @param role 角色信息
      */
-    @Override
     public void checkRoleAllowed(SysRole role) {
         if (ObjectUtil.isNotNull(role.getId()) && role.isAdmin()) {
             throw new ServiceException("不允许操作超级管理员角色");
@@ -131,7 +123,6 @@ public class SysRoleServiceImpl implements ISysRoleService {
      * @param roleId 角色ID
      * @return 结果
      */
-    @Override
     public long countUserRoleByRoleId(Integer roleId) {
         return userRoleMapper.selectCount(new LambdaQueryWrapper<SysUserRole>().eq(SysUserRole::getRoleId, roleId));
     }
@@ -142,7 +133,6 @@ public class SysRoleServiceImpl implements ISysRoleService {
      * @param role 角色信息
      * @return 结果
      */
-    @Override
     @Transactional(rollbackFor = Exception.class)
     public int insertRole(SysRole role) {
         // 新增角色信息
@@ -157,7 +147,6 @@ public class SysRoleServiceImpl implements ISysRoleService {
      * @param role 角色信息
      * @return 结果
      */
-    @Override
     @Transactional(rollbackFor = Exception.class)
     public int updateRole(SysRole role) {
         // 修改角色信息
@@ -174,7 +163,6 @@ public class SysRoleServiceImpl implements ISysRoleService {
      * @param role 角色信息
      * @return 结果
      */
-    @Override
     public int updateRoleStatus(SysRole role) {
         return baseMapper.updateById(role);
     }
@@ -209,7 +197,6 @@ public class SysRoleServiceImpl implements ISysRoleService {
      * @param roleIds 需要删除的角色ID
      * @return 结果
      */
-    @Override
     @Transactional(rollbackFor = Exception.class)
     public int deleteRoleByIds(Integer[] roleIds) {
         for (Integer roleId : roleIds) {
@@ -225,7 +212,6 @@ public class SysRoleServiceImpl implements ISysRoleService {
         return baseMapper.deleteBatchIds(ids);
     }
 
-    @Override
     public List<OptionEntity> getOptions() {
         LambdaQueryWrapper<SysRole> lqw = Wrappers.lambdaQuery();
         List<SysRole> list = baseMapper.selectVoList(lqw);

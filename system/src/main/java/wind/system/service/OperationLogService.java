@@ -12,10 +12,10 @@ import wind.common.constant.Constants;
 import wind.common.core.domain.PageQuery;
 import wind.common.core.page.Paging;
 import wind.common.utils.ip.AddressUtils;
-import wind.system.dto.OperationLogDto;
+import wind.system.dto.OperationLogDTO;
 import wind.system.entity.OperationLog;
 import wind.system.mapper.OperationLogMapper;
-import wind.system.queryDto.OperationLogQueryDto;
+import wind.system.query.OperationLogQuery;
 
 import java.util.Date;
 
@@ -30,7 +30,7 @@ public class OperationLogService {
 
     private final OperationLogMapper model;
 
-    public Paging<OperationLog> list(OperationLogQueryDto req, PageQuery pageQuery) {
+    public Paging<OperationLog> list(OperationLogQuery req, PageQuery pageQuery) {
         LambdaQueryWrapper<OperationLog> lqw = Wrappers.lambdaQuery();
         lqw.like(StrUtil.isNotEmpty(req.getTitle()), OperationLog::getTitle, req.getTitle());
         lqw.like(StrUtil.isNotEmpty(req.getName()), OperationLog::getName, req.getName());
@@ -44,7 +44,7 @@ public class OperationLogService {
     }
 
     @Async
-    public void recordOperation(final OperationLogDto operationLogDto) {
+    public void recordOperation(final OperationLogDTO operationLogDto) {
         OperationLog operationLog = BeanUtil.toBean(operationLogDto, OperationLog.class);
         // 远程查询操作地点
         operationLog.setLocation(AddressUtils.getRealAddressByIp(operationLog.getIp()));

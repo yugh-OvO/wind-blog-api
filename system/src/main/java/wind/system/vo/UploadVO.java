@@ -10,7 +10,7 @@ import lombok.Data;
  */
 @Data
 @Builder
-public class UploadVo {
+public class UploadVO {
 
     /**
      * 文件路径

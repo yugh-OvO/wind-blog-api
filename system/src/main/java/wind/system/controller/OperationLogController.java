@@ -11,7 +11,7 @@ import wind.common.core.domain.PageQuery;
 import wind.common.core.domain.Result;
 import wind.common.core.page.Paging;
 import wind.system.entity.OperationLog;
-import wind.system.queryDto.OperationLogQueryDto;
+import wind.system.query.OperationLogQuery;
 import wind.system.service.OperationLogService;
 
 /**
@@ -32,7 +32,7 @@ public class OperationLogController extends BaseController {
      */
     @SaCheckPermission("operationLogList")
     @GetMapping("/list")
-    public Result<Paging<OperationLog>> list(OperationLogQueryDto operationLog, PageQuery pageQuery) {
+    public Result<Paging<OperationLog>> list(OperationLogQuery operationLog, PageQuery pageQuery) {
         return Result.ok(service.list(operationLog, pageQuery));
     }
 

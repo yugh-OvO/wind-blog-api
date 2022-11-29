@@ -12,7 +12,7 @@ import wind.common.core.domain.Result;
 import wind.common.core.page.Paging;
 import wind.common.enums.BusinessType;
 import wind.system.entity.SysConfig;
-import wind.system.service.ISysConfigService;
+import wind.system.service.ConfigService;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -28,7 +28,7 @@ import java.util.List;
 @RequestMapping("/system/config")
 public class SysConfigController extends BaseController {
 
-    private final ISysConfigService configService;
+    private final ConfigService configService;
 
     /**
      * 获取参数配置列表

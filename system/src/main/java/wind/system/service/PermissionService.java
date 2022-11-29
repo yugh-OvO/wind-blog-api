@@ -16,10 +16,10 @@ import java.util.Set;
  */
 @RequiredArgsConstructor
 @Service
-public class SysPermissionService {
+public class PermissionService {
 
-    private final ISysRoleService roleService;
-    private final ISysMenuService menuService;
+    private final RoleService roleService;
+    private final MenuService menuService;
 
     /**
      * 获取角色数据权限

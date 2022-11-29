@@ -12,7 +12,7 @@ import wind.common.core.controller.BaseController;
 import wind.common.core.domain.Result;
 import wind.common.enums.BusinessType;
 import wind.system.entity.SysMenu;
-import wind.system.service.ISysMenuService;
+import wind.system.service.MenuService;
 
 import java.util.List;
 import java.util.Map;
@@ -28,7 +28,7 @@ import java.util.Map;
 @RequestMapping("/system/menu")
 public class SysMenuController extends BaseController {
 
-    private final ISysMenuService menuService;
+    private final MenuService menuService;
 
     /**
      * 根据菜单编号获取详细信息
