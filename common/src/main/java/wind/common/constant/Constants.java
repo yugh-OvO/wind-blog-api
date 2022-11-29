@@ -35,12 +35,12 @@ public interface Constants {
     /**
      * 通用成功标识
      */
-    String SUCCESS = "0";
+    Integer SUCCESS = 1;
 
     /**
      * 通用失败标识
      */
-    String FAIL = "1";
+    Integer FAIL = 2;
 
     /**
      * 登录成功

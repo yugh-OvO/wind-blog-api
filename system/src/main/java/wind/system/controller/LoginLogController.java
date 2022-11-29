@@ -8,30 +8,32 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import wind.common.core.controller.BaseController;
 import wind.common.core.domain.PageQuery;
+import wind.common.core.domain.Result;
 import wind.common.core.page.Paging;
-import wind.system.entity.SysLoginLog;
+import wind.system.entity.LoginLog;
+import wind.system.query.LoginLogQuery;
 import wind.system.service.LoginLogService;
 
 /**
- * 系统访问记录
+ * 操作日志记录
  *
  * @author Yu Gaoheng
  */
 @Validated
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/monitor/loginLog")
-public class SysLoginLogController extends BaseController {
+@RequestMapping("/system/loginLog")
+public class LoginLogController extends BaseController {
 
     private final LoginLogService service;
 
     /**
-     * 获取系统访问记录列表
+     * 获取操作日志记录列表
      */
-    @SaCheckPermission("monitor:loginLog:list")
+    @SaCheckPermission("loginLogList")
     @GetMapping("/list")
-    public Paging<SysLoginLog> list(SysLoginLog loginLog, PageQuery pageQuery) {
-        return service.list(loginLog, pageQuery);
+    public Result<Paging<LoginLog>> list(LoginLogQuery query, PageQuery pageQuery) {
+        return Result.ok(service.list(query, pageQuery));
     }
 
 }
