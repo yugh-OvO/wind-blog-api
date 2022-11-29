@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import wind.common.annotation.ExcelDictFormat;
-import wind.common.convert.ExcelDictConvert;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -42,7 +41,6 @@ public class SysLoginLog implements Serializable {
     /**
      * 登录状态 0成功 1失败
      */
-    @ExcelProperty(value = "登录状态", converter = ExcelDictConvert.class)
     @ExcelDictFormat(dictType = "sys_common_status")
     private String status;
 

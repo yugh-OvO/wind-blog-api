@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import wind.common.core.domain.PageQuery;
-import wind.common.core.page.TableDataInfo;
+import wind.common.core.page.Paging;
 import wind.common.utils.StringUtils;
 import wind.system.entity.SysLoginLog;
 import wind.system.mapper.SysLoginLogMapper;
@@ -77,7 +77,7 @@ public class LoginLogService {
      * @param pageQuery 分页对象
      * @return 登录记录集合
      */
-    public TableDataInfo<SysLoginLog> list(SysLoginLog loginLog, PageQuery pageQuery) {
+    public Paging<SysLoginLog> list(SysLoginLog loginLog, PageQuery pageQuery) {
         Map<String, Object> params = loginLog.getParams();
         LambdaQueryWrapper<SysLoginLog> lqw = new LambdaQueryWrapper<SysLoginLog>()
                 .like(StringUtils.isNotBlank(loginLog.getIpaddr()), SysLoginLog::getIpaddr, loginLog.getIpaddr())
@@ -90,7 +90,7 @@ public class LoginLogService {
             pageQuery.setIsAsc("desc");
         }
         Page<SysLoginLog> page = model.selectPage(pageQuery.build(), lqw);
-        return TableDataInfo.build(page);
+        return Paging.build(page);
     }
 
 }

@@ -1,10 +1,10 @@
 package wind.common.utils.redis;
 
+import cn.hutool.extra.spring.SpringUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.redisson.api.*;
 import org.redisson.config.Config;
-import wind.common.utils.spring.SpringUtils;
 
 import java.time.Duration;
 import java.util.Collection;
@@ -25,7 +25,7 @@ import java.util.stream.Stream;
 @SuppressWarnings(value = {"unchecked", "rawtypes"})
 public class RedisUtils {
 
-    private static final RedissonClient CLIENT = SpringUtils.getBean(RedissonClient.class);
+    private static final RedissonClient CLIENT = SpringUtil.getBean(RedissonClient.class);
 
     public static NameMapper getNameMapper() {
         Config config = CLIENT.getConfig();

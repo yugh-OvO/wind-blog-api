@@ -9,9 +9,8 @@ import wind.common.constant.UserConstants;
 import wind.common.core.controller.BaseController;
 import wind.common.core.domain.PageQuery;
 import wind.common.core.domain.Result;
-import wind.common.core.page.TableDataInfo;
+import wind.common.core.page.Paging;
 import wind.common.enums.BusinessType;
-import wind.common.utils.poi.ExcelUtil;
 import wind.system.entity.SysConfig;
 import wind.system.service.ISysConfigService;
 
@@ -36,7 +35,7 @@ public class SysConfigController extends BaseController {
      */
     @SaCheckPermission("system:config:list")
     @GetMapping("/list")
-    public TableDataInfo<SysConfig> list(SysConfig config, PageQuery pageQuery) {
+    public Paging<SysConfig> list(SysConfig config, PageQuery pageQuery) {
         return configService.selectPageConfigList(config, pageQuery);
     }
 
@@ -48,7 +47,6 @@ public class SysConfigController extends BaseController {
     @PostMapping("/export")
     public void export(SysConfig config, HttpServletResponse response) {
         List<SysConfig> list = configService.selectConfigList(config);
-        ExcelUtil.exportExcel(list, "参数数据", SysConfig.class, response);
     }
 
     /**

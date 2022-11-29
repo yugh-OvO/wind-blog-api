@@ -6,6 +6,7 @@ import cn.dev33.satoken.jwt.StpLogicJwtForSimple;
 import cn.dev33.satoken.router.SaRouter;
 import cn.dev33.satoken.stp.StpLogic;
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -14,7 +15,6 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import wind.common.config.properties.ExcludeUrlProperties;
 import wind.common.config.properties.SecurityProperties;
-import wind.common.utils.spring.SpringUtils;
 
 /**
  * sa-token 配置
@@ -36,7 +36,7 @@ public class SaTokenConfig implements WebMvcConfigurer {
         securityProperties.setExcludes(new String[]{"/business/member/login", "/business/member/getRedirectUrl"});
         // 注册路由拦截器，自定义验证规则
         registry.addInterceptor(new SaRouteInterceptor((request, response, handler) -> {
-            ExcludeUrlProperties excludeUrlProperties = SpringUtils.getBean(ExcludeUrlProperties.class);
+            ExcludeUrlProperties excludeUrlProperties = SpringUtil.getBean(ExcludeUrlProperties.class);
             // 登录验证 -- 排除多个路径
             // 检查是否登录 是否有token
             SaRouter

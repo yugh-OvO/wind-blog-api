@@ -1,8 +1,9 @@
 package wind.system.aspect;
 
-import cn.hutool.core.lang.Dict;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -17,7 +18,6 @@ import wind.common.annotation.Log;
 import wind.common.constant.GlobalConstants;
 import wind.common.enums.HttpMethod;
 import wind.common.helper.LoginHelper;
-import wind.common.utils.JsonUtils;
 import wind.common.utils.ServletUtils;
 import wind.common.utils.StringUtils;
 import wind.system.dto.OperationLogDto;
@@ -122,7 +122,7 @@ public class LogAspect {
         }
         // 是否需要保存response，参数和值
         if (log.isSaveResponseData() && ObjectUtil.isNotNull(jsonResult)) {
-            operationLog.setJsonResult(StringUtils.substring(JsonUtils.toJsonString(jsonResult), 0, 2000));
+            operationLog.setJsonResult(StringUtils.substring(JSONUtil.toJsonStr(jsonResult), 0, 2000));
         }
     }
 
@@ -152,11 +152,11 @@ public class LogAspect {
             for (Object o : paramsArray) {
                 if (ObjectUtil.isNotNull(o) && !isFilterObject(o)) {
                     try {
-                        String str = JsonUtils.toJsonString(o);
-                        Dict dict = JsonUtils.parseMap(str);
+                        String str = JSONUtil.toJsonStr(o);
+                        JSONObject dict = JSONUtil.parseObj(str);
                         if (MapUtil.isNotEmpty(dict)) {
                             MapUtil.removeAny(dict, EXCLUDE_PROPERTIES);
-                            str = JsonUtils.toJsonString(dict);
+                            str = JSONUtil.toJsonStr(dict);
                         }
                         params.append(str).append(" ");
                     } catch (Exception e) {

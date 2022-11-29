@@ -2,7 +2,7 @@ package wind.system.service;
 
 import wind.common.core.domain.OptionEntity;
 import wind.common.core.domain.PageQuery;
-import wind.common.core.page.TableDataInfo;
+import wind.common.core.page.Paging;
 import wind.system.entity.SysRole;
 
 import java.util.List;
@@ -23,7 +23,7 @@ public interface ISysRoleService {
      * @param pageQuery 分页对象
      * @return 角色数据集合信息
      */
-    TableDataInfo<SysRole> selectPageRoleList(SysRole role, PageQuery pageQuery);
+    Paging<SysRole> selectPageRoleList(SysRole role, PageQuery pageQuery);
 
     /**
      * 根据用户ID查询角色列表

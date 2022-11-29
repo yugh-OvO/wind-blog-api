@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import wind.common.core.controller.BaseController;
 import wind.common.core.domain.PageQuery;
-import wind.common.core.page.TableDataInfo;
+import wind.common.core.page.Paging;
 import wind.system.entity.SysLoginLog;
 import wind.system.service.LoginLogService;
 
@@ -30,7 +30,7 @@ public class SysLoginLogController extends BaseController {
      */
     @SaCheckPermission("monitor:loginLog:list")
     @GetMapping("/list")
-    public TableDataInfo<SysLoginLog> list(SysLoginLog loginLog, PageQuery pageQuery) {
+    public Paging<SysLoginLog> list(SysLoginLog loginLog, PageQuery pageQuery) {
         return service.list(loginLog, pageQuery);
     }
 

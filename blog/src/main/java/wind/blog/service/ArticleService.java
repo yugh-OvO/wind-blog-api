@@ -2,8 +2,8 @@ package wind.blog.service;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ import wind.blog.es.mapper.ArticleEsMapper;
 import wind.blog.mapper.ArticleMapper;
 import wind.blog.vo.ArticleVo;
 import wind.common.core.domain.PageQuery;
-import wind.common.core.page.TableDataInfo;
+import wind.common.core.page.Paging;
 
 /**
  * 用户Service业务层处理
@@ -32,12 +32,12 @@ public class ArticleService {
 
     private final ArticleEsMapper esModel;
 
-    public TableDataInfo<ArticleVo> list(ArticleQueryDto dto, PageQuery pageQuery) {
+    public Paging<ArticleVo> list(ArticleQueryDto dto, PageQuery pageQuery) {
 //        LambdaEsQueryWrapper<ArticleEs> wrapper = new LambdaEsQueryWrapper<>();
 //        wrapper.like(ArticleEs::getTitle, "123");
 //        System.out.println(esModel.selectList(wrapper));
         LambdaQueryWrapper<Article> lqw = Wrappers.lambdaQuery();
-        lqw.like(StringUtils.isNotEmpty(dto.getTitle()), Article::getContent, dto.getTitle());
+        lqw.like(StrUtil.isNotEmpty(dto.getTitle()), Article::getContent, dto.getTitle());
         lqw.eq(ObjectUtil.isNotNull(dto.getStatus()), Article::getStatus, dto.getStatus());
         String[] createTime = dto.getCreateTimeRange();
         if (createTime != null && createTime.length == 2) {
@@ -45,7 +45,7 @@ public class ArticleService {
         }
         lqw.orderByDesc(Article::getId);
         Page<ArticleVo> result = model.selectVoPage(pageQuery.build(), lqw);
-        return TableDataInfo.build(result);
+        return Paging.build(result);
     }
 
     public ArticleVo find(Integer id) {

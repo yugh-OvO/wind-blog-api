@@ -2,6 +2,8 @@ package wind.common.interceptor;
 
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.map.MapUtil;
+import cn.hutool.extra.spring.SpringUtil;
+import cn.hutool.json.JSONUtil;
 import com.alibaba.ttl.TransmittableThreadLocal;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.StopWatch;
@@ -9,9 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import wind.common.filter.RepeatedlyRequestWrapper;
-import wind.common.utils.JsonUtils;
 import wind.common.utils.StringUtils;
-import wind.common.utils.spring.SpringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,7 +34,7 @@ public class PlusWebInvokeTimeInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        if (!prodProfile.equals(SpringUtils.getActiveProfile())) {
+        if (!prodProfile.equals(SpringUtil.getActiveProfile())) {
             String url = request.getMethod() + " " + request.getRequestURI();
 
             // 打印请求参数
@@ -48,7 +48,7 @@ public class PlusWebInvokeTimeInterceptor implements HandlerInterceptor {
             } else {
                 Map<String, String[]> parameterMap = request.getParameterMap();
                 if (MapUtil.isNotEmpty(parameterMap)) {
-                    String parameters = JsonUtils.toJsonString(parameterMap);
+                    String parameters = JSONUtil.toJsonStr(parameterMap);
                     log.debug("[PLUS]开始请求 => URL[{}],参数类型[param],参数:[{}]", url, parameters);
                 } else {
                     log.debug("[PLUS]开始请求 => URL[{}],无参数", url);
@@ -69,7 +69,7 @@ public class PlusWebInvokeTimeInterceptor implements HandlerInterceptor {
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        if (!prodProfile.equals(SpringUtils.getActiveProfile())) {
+        if (!prodProfile.equals(SpringUtil.getActiveProfile())) {
             StopWatch stopWatch = invokeTimeTL.get();
             stopWatch.stop();
             log.debug("[PLUS]结束请求 => URL[{}],耗时:[{}]毫秒", request.getMethod() + " " + request.getRequestURI(), stopWatch.getTime());

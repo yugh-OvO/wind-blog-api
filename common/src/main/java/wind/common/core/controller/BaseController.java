@@ -1,9 +1,9 @@
 package wind.common.core.controller;
 
+import cn.hutool.core.util.StrUtil;
 import wind.common.core.domain.Result;
 import wind.common.core.domain.model.LoginUser;
 import wind.common.helper.LoginHelper;
-import wind.common.utils.StringUtils;
 
 /**
  * web层通用数据处理
@@ -36,7 +36,7 @@ public class BaseController {
      * 页面跳转
      */
     public String redirect(String url) {
-        return StringUtils.format("redirect:{}", url);
+        return StrUtil.format("redirect:{}", url);
     }
 
     /**

@@ -2,6 +2,7 @@ package wind.system.controller;
 
 import cn.dev33.satoken.secure.BCrypt;
 import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.StrUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +12,6 @@ import wind.common.core.controller.BaseController;
 import wind.common.core.domain.Result;
 import wind.common.enums.BusinessType;
 import wind.common.helper.LoginHelper;
-import wind.common.utils.StringUtils;
 import wind.system.entity.SysUser;
 import wind.system.service.ISysUserService;
 
@@ -48,11 +48,11 @@ public class SysProfileController extends BaseController {
     @Log(title = "个人信息", businessType = BusinessType.UPDATE)
     @PutMapping
     public Result<Void> updateProfile(@RequestBody SysUser user) {
-        if (StringUtils.isNotEmpty(user.getMobile())
+        if (StrUtil.isNotEmpty(user.getMobile())
                 && UserConstants.NOT_UNIQUE.equals(userService.checkPhoneUnique(user))) {
             return Result.fail("修改用户'" + user.getUsername() + "'失败，手机号码已存在");
         }
-        if (StringUtils.isNotEmpty(user.getEmail())
+        if (StrUtil.isNotEmpty(user.getEmail())
                 && UserConstants.NOT_UNIQUE.equals(userService.checkEmailUnique(user))) {
             return Result.fail("修改用户'" + user.getUsername() + "'失败，邮箱账号已存在");
         }

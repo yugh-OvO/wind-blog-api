@@ -1,5 +1,6 @@
 package wind.common.filter;
 
+import cn.hutool.core.util.StrUtil;
 import wind.common.enums.HttpMethod;
 import wind.common.utils.StringUtils;
 
@@ -24,7 +25,7 @@ public class XssFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         String tempExcludes = filterConfig.getInitParameter("excludes");
-        if (StringUtils.isNotEmpty(tempExcludes)) {
+        if (StrUtil.isNotEmpty(tempExcludes)) {
             String[] url = tempExcludes.split(",");
             for (int i = 0; url != null && i < url.length; i++) {
                 excludes.add(url[i]);

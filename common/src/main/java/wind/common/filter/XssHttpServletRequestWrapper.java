@@ -1,6 +1,7 @@
 package wind.common.filter;
 
 import cn.hutool.core.io.IoUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HtmlUtil;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -51,7 +52,7 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
 
         // 为空，直接返回
         String json = IoUtil.read(super.getInputStream(), StandardCharsets.UTF_8);
-        if (StringUtils.isEmpty(json)) {
+        if (StrUtil.isEmpty(json)) {
             return super.getInputStream();
         }
 

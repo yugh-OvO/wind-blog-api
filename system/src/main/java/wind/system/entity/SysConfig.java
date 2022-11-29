@@ -8,7 +8,6 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import wind.common.annotation.ExcelDictFormat;
-import wind.common.convert.ExcelDictConvert;
 import wind.common.core.domain.BaseEntity;
 
 import javax.validation.constraints.NotBlank;
@@ -60,7 +59,6 @@ public class SysConfig extends BaseEntity {
     /**
      * 系统内置（1-是 2-否）
      */
-    @ExcelProperty(value = "系统内置", converter = ExcelDictConvert.class)
     @ExcelDictFormat(dictType = "sys_yes_no")
     private Integer type;
 

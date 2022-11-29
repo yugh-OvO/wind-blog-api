@@ -1,7 +1,7 @@
 package wind.system.service;
 
 import wind.common.core.domain.PageQuery;
-import wind.common.core.page.TableDataInfo;
+import wind.common.core.page.Paging;
 import wind.system.entity.SysConfig;
 
 import java.util.List;
@@ -20,7 +20,7 @@ public interface ISysConfigService {
      * @param pageQuery 分页对象
      * @return 参数配置信息
      */
-    TableDataInfo<SysConfig> selectPageConfigList(SysConfig config, PageQuery pageQuery);
+    Paging<SysConfig> selectPageConfigList(SysConfig config, PageQuery pageQuery);
 
     /**
      * 查询参数配置信息
@@ -98,5 +98,13 @@ public interface ISysConfigService {
      * @return 结果
      */
     String checkConfigCodeUnique(SysConfig config);
+
+    /**
+     * 根据参数 key 获取参数值
+     *
+     * @param code 参数 key
+     * @return 参数值
+     */
+    String getValue(String code);
 
 }

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import wind.common.constant.UserConstants;
 import wind.common.core.domain.PageQuery;
-import wind.common.core.page.TableDataInfo;
+import wind.common.core.page.Paging;
 import wind.common.exception.ServiceException;
 import wind.common.utils.StreamUtils;
 import wind.common.utils.StringUtils;
@@ -44,11 +44,11 @@ public class SysUserServiceImpl implements ISysUserService {
     private final SysUserRoleMapper userRoleMapper;
 
     @Override
-    public TableDataInfo<SysUser> selectPageUserList(SysUser user, PageQuery pageQuery) {
+    public Paging<SysUser> selectPageUserList(SysUser user, PageQuery pageQuery) {
         LambdaQueryWrapper<SysUser> lqw = buildQueryWrapper(user);
         lqw.orderByDesc(SysUser::getId);
         Page<SysUser> result = baseMapper.selectVoPage(pageQuery.build(), lqw);
-        return TableDataInfo.build(result);
+        return Paging.build(result);
     }
 
     private LambdaQueryWrapper<SysUser> buildQueryWrapper(SysUser user) {

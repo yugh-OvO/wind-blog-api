@@ -69,7 +69,6 @@ public class RedisConfig extends CachingConfigurerSupport {
                         .setReadMode(clusterServersConfig.getReadMode())
                         .setSubscriptionMode(clusterServersConfig.getSubscriptionMode());
             }
-            log.info("初始化 redis 配置");
         };
     }
 

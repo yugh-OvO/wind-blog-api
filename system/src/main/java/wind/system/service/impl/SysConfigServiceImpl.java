@@ -3,6 +3,7 @@ package wind.system.service.impl;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -13,8 +14,7 @@ import org.springframework.stereotype.Service;
 import wind.common.constant.CacheNames;
 import wind.common.constant.UserConstants;
 import wind.common.core.domain.PageQuery;
-import wind.common.core.page.TableDataInfo;
-import wind.common.core.service.ConfigService;
+import wind.common.core.page.Paging;
 import wind.common.exception.ServiceException;
 import wind.common.utils.StringUtils;
 import wind.common.utils.redis.CacheUtils;
@@ -33,12 +33,12 @@ import java.util.Map;
  */
 @RequiredArgsConstructor
 @Service
-public class SysConfigServiceImpl implements ISysConfigService, ConfigService {
+public class SysConfigServiceImpl implements ISysConfigService {
 
     private final SysConfigMapper baseMapper;
 
     @Override
-    public TableDataInfo<SysConfig> selectPageConfigList(SysConfig config, PageQuery pageQuery) {
+    public Paging<SysConfig> selectPageConfigList(SysConfig config, PageQuery pageQuery) {
         Map<String, Object> params = config.getParams();
         LambdaQueryWrapper<SysConfig> lqw = new LambdaQueryWrapper<SysConfig>()
                 .like(StringUtils.isNotBlank(config.getName()), SysConfig::getName, config.getName())
@@ -47,7 +47,7 @@ public class SysConfigServiceImpl implements ISysConfigService, ConfigService {
                 .between(params.get("beginTime") != null && params.get("endTime") != null,
                         SysConfig::getCreateTime, params.get("beginTime"), params.get("endTime"));
         Page<SysConfig> page = baseMapper.selectPage(pageQuery.build(), lqw);
-        return TableDataInfo.build(page);
+        return Paging.build(page);
     }
 
     /**
@@ -87,7 +87,7 @@ public class SysConfigServiceImpl implements ISysConfigService, ConfigService {
     @Override
     public boolean selectCaptchaEnabled() {
         String captchaEnabled = selectConfigByCode("sys.account.captchaEnabled");
-        if (StringUtils.isEmpty(captchaEnabled)) {
+        if (StrUtil.isEmpty(captchaEnabled)) {
             return true;
         }
         return Convert.toBool(captchaEnabled);

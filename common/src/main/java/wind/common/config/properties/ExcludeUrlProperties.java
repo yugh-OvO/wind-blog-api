@@ -1,6 +1,7 @@
 package wind.common.config.properties;
 
 import cn.hutool.core.util.ReUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import lombok.Getter;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Lazy;
@@ -11,7 +12,6 @@ import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import org.springframework.web.util.pattern.PathPattern;
 import wind.common.annotation.Anonymous;
-import wind.common.utils.spring.SpringUtils;
 
 import java.util.*;
 import java.util.regex.Pattern;
@@ -33,7 +33,7 @@ public class ExcludeUrlProperties implements InitializingBean {
     @Override
     public void afterPropertiesSet() {
         String asterisk = "*";
-        RequestMappingHandlerMapping mapping = SpringUtils.getBean("requestMappingHandlerMapping", RequestMappingHandlerMapping.class);
+        RequestMappingHandlerMapping mapping = SpringUtil.getBean("requestMappingHandlerMapping", RequestMappingHandlerMapping.class);
         Map<RequestMappingInfo, HandlerMethod> map = mapping.getHandlerMethods();
 
         map.keySet().forEach(info -> {

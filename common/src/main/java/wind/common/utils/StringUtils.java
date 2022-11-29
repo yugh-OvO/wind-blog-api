@@ -1,16 +1,12 @@
 package wind.common.utils;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.StrUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.springframework.util.AntPathMatcher;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * 字符串工具类
@@ -21,16 +17,6 @@ import java.util.Set;
 public class StringUtils extends org.apache.commons.lang3.StringUtils {
 
     /**
-     * 获取参数不为空值
-     *
-     * @param str defaultValue 要判断的value
-     * @return value 返回值
-     */
-    public static String blankToDefault(String str, String defaultValue) {
-        return StrUtil.blankToDefault(str, defaultValue);
-    }
-
-    /**
      * * 判断一个字符串是否为空串
      *
      * @param str String
@@ -38,34 +24,6 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
      */
     public static boolean isEmpty(String str) {
         return StrUtil.isEmpty(str);
-    }
-
-    /**
-     * * 判断一个字符串是否为非空串
-     *
-     * @param str String
-     * @return true：非空串 false：空串
-     */
-    public static boolean isNotEmpty(String str) {
-        return !isEmpty(str);
-    }
-
-    /**
-     * 去空格
-     */
-    public static String trim(String str) {
-        return StrUtil.trim(str);
-    }
-
-    /**
-     * 截取字符串
-     *
-     * @param str   字符串
-     * @param start 开始
-     * @return 结果
-     */
-    public static String substring(final String str, int start) {
-        return substring(str, start, str.length());
     }
 
     /**
@@ -95,106 +53,6 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
      */
     public static String format(String template, Object... params) {
         return StrUtil.format(template, params);
-    }
-
-    /**
-     * 是否为http(s)://开头
-     *
-     * @param link 链接
-     * @return 结果
-     */
-    public static boolean ishttp(String link) {
-        return Validator.isUrl(link);
-    }
-
-    /**
-     * 字符串转set
-     *
-     * @param str 字符串
-     * @param sep 分隔符
-     * @return set集合
-     */
-    public static Set<String> str2Set(String str, String sep) {
-        return new HashSet<>(str2List(str, sep, true, false));
-    }
-
-    /**
-     * 字符串转list
-     *
-     * @param str         字符串
-     * @param sep         分隔符
-     * @param filterBlank 过滤纯空白
-     * @param trim        去掉首尾空白
-     * @return list集合
-     */
-    public static List<String> str2List(String str, String sep, boolean filterBlank, boolean trim) {
-        List<String> list = new ArrayList<>();
-        if (isEmpty(str)) {
-            return list;
-        }
-
-        // 过滤空白字符串
-        if (filterBlank && isBlank(str)) {
-            return list;
-        }
-        String[] split = str.split(sep);
-        for (String string : split) {
-            if (filterBlank && isBlank(string)) {
-                continue;
-            }
-            if (trim) {
-                string = trim(string);
-            }
-            list.add(string);
-        }
-
-        return list;
-    }
-
-    /**
-     * 查找指定字符串是否包含指定字符串列表中的任意一个字符串同时串忽略大小写
-     *
-     * @param cs                  指定字符串
-     * @param searchCharSequences 需要检查的字符串数组
-     * @return 是否包含任意一个字符串
-     */
-    public static boolean containsAnyIgnoreCase(CharSequence cs, CharSequence... searchCharSequences) {
-        return StrUtil.containsAnyIgnoreCase(cs, searchCharSequences);
-    }
-
-    /**
-     * 驼峰转下划线命名
-     */
-    public static String toUnderScoreCase(String str) {
-        return StrUtil.toUnderlineCase(str);
-    }
-
-    /**
-     * 是否包含字符串
-     *
-     * @param str  验证字符串
-     * @param strs 字符串组
-     * @return 包含返回true
-     */
-    public static boolean inStringIgnoreCase(String str, String... strs) {
-        return StrUtil.equalsAnyIgnoreCase(str, strs);
-    }
-
-    /**
-     * 将下划线大写方式命名的字符串转换为驼峰式。如果转换前的下划线大写方式命名的字符串为空，则返回空字符串。 例如：HELLO_WORLD->HelloWorld
-     *
-     * @param name 转换前的下划线大写方式命名的字符串
-     * @return 转换后的驼峰式命名的字符串
-     */
-    public static String convertToCamelCase(String name) {
-        return StrUtil.upperFirst(StrUtil.toCamelCase(name));
-    }
-
-    /**
-     * 驼峰式命名法 例如：user_name->userName
-     */
-    public static String toCamelCase(String s) {
-        return StrUtil.toCamelCase(s);
     }
 
     /**
@@ -229,45 +87,6 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
     public static boolean isMatch(String pattern, String url) {
         AntPathMatcher matcher = new AntPathMatcher();
         return matcher.match(pattern, url);
-    }
-
-    /**
-     * 数字左边补齐0，使之达到指定长度。注意，如果数字转换为字符串后，长度大于size，则只保留 最后size个字符。
-     *
-     * @param num  数字对象
-     * @param size 字符串指定长度
-     * @return 返回数字的字符串格式，该字符串为指定长度。
-     */
-    public static final String padl(final Number num, final int size) {
-        return padl(num.toString(), size, '0');
-    }
-
-    /**
-     * 字符串左补齐。如果原始字符串s长度大于size，则只保留最后size个字符。
-     *
-     * @param s    原始字符串
-     * @param size 字符串指定长度
-     * @param c    用于补齐的字符
-     * @return 返回指定长度的字符串，由原字符串左补齐或截取得到。
-     */
-    public static final String padl(final String s, final int size, final char c) {
-        final StringBuilder sb = new StringBuilder(size);
-        if (s != null) {
-            final int len = s.length();
-            if (s.length() <= size) {
-                for (int i = size - len; i > 0; i--) {
-                    sb.append(c);
-                }
-                sb.append(s);
-            } else {
-                return s.substring(len - size, len);
-            }
-        } else {
-            for (int i = size; i > 0; i--) {
-                sb.append(c);
-            }
-        }
-        return sb.toString();
     }
 
 }

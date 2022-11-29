@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import wind.common.constant.UserConstants;
 import wind.common.core.domain.OptionEntity;
 import wind.common.core.domain.PageQuery;
-import wind.common.core.page.TableDataInfo;
+import wind.common.core.page.Paging;
 import wind.common.exception.ServiceException;
 import wind.system.entity.SysRole;
 import wind.system.entity.SysRoleMenu;
@@ -38,11 +38,11 @@ public class SysRoleServiceImpl implements ISysRoleService {
     private final SysUserRoleMapper userRoleMapper;
 
     @Override
-    public TableDataInfo<SysRole> selectPageRoleList(SysRole role, PageQuery pageQuery) {
+    public Paging<SysRole> selectPageRoleList(SysRole role, PageQuery pageQuery) {
         LambdaQueryWrapper<SysRole> lqw = buildQueryWrapper(role);
         lqw.orderByDesc(SysRole::getId);
         Page<SysRole> result = baseMapper.selectVoPage(pageQuery.build(), lqw);
-        return TableDataInfo.build(result);
+        return Paging.build(result);
     }
 
     private LambdaQueryWrapper<SysRole> buildQueryWrapper(SysRole role) {

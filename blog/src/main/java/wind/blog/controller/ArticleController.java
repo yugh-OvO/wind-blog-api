@@ -14,7 +14,7 @@ import wind.common.core.controller.BaseController;
 import wind.common.core.domain.PageQuery;
 import wind.common.core.domain.Result;
 import wind.common.core.domain.dto.ChangeStatusDto;
-import wind.common.core.page.TableDataInfo;
+import wind.common.core.page.Paging;
 import wind.common.core.validate.AddGroup;
 import wind.common.core.validate.EditGroup;
 import wind.common.enums.BusinessType;
@@ -39,7 +39,7 @@ public class ArticleController extends BaseController {
      */
     @SaCheckPermission("articleList")
     @GetMapping("/list")
-    public Result<TableDataInfo<ArticleVo>> list(ArticleQueryDto bo, PageQuery pageQuery) {
+    public Result<Paging<ArticleVo>> list(ArticleQueryDto bo, PageQuery pageQuery) {
         return Result.ok(service.list(bo, pageQuery));
     }
 

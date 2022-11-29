@@ -1,15 +1,16 @@
 package wind.common.utils.ip;
 
-import cn.hutool.core.lang.Dict;
 import cn.hutool.core.net.NetUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HtmlUtil;
 import cn.hutool.http.HttpUtil;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import wind.common.config.WindConfig;
 import wind.common.constant.Constants;
-import wind.common.utils.JsonUtils;
 import wind.common.utils.StringUtils;
 
 /**
@@ -46,11 +47,11 @@ public class AddressUtils {
                         .body("ip=" + ip + "&json=true", Constants.GBK)
                         .execute()
                         .body();
-                if (StringUtils.isEmpty(rspStr)) {
+                if (StrUtil.isEmpty(rspStr)) {
                     log.error("获取地理位置异常 {}", ip);
                     return UNKNOWN;
                 }
-                Dict obj = JsonUtils.parseMap(rspStr);
+                JSONObject obj = JSONUtil.parseObj(rspStr);
                 String region = obj.getStr("pro");
                 String city = obj.getStr("city");
                 return String.format("%s %s", region, city);

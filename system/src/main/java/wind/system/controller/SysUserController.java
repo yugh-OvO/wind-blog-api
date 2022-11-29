@@ -4,6 +4,7 @@ import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.secure.BCrypt;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.StrUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -12,11 +13,10 @@ import wind.common.constant.UserConstants;
 import wind.common.core.controller.BaseController;
 import wind.common.core.domain.PageQuery;
 import wind.common.core.domain.Result;
-import wind.common.core.page.TableDataInfo;
+import wind.common.core.page.Paging;
 import wind.common.enums.BusinessType;
 import wind.common.helper.LoginHelper;
 import wind.common.utils.StreamUtils;
-import wind.common.utils.StringUtils;
 import wind.system.entity.SysRole;
 import wind.system.entity.SysUser;
 import wind.system.service.ISysRoleService;
@@ -44,7 +44,7 @@ public class SysUserController extends BaseController {
      */
     @SaCheckPermission("userList")
     @GetMapping("/list")
-    public Result<TableDataInfo<SysUser>> list(SysUser user, PageQuery pageQuery) {
+    public Result<Paging<SysUser>> list(SysUser user, PageQuery pageQuery) {
         return Result.ok(userService.selectPageUserList(user, pageQuery));
     }
 
@@ -73,7 +73,7 @@ public class SysUserController extends BaseController {
     public Result<Void> add(@Validated @RequestBody SysUser user) {
         if (UserConstants.NOT_UNIQUE.equals(userService.checkUserNameUnique(user.getUsername()))) {
             return Result.fail("新增用户'" + user.getUsername() + "'失败，登录账号已存在");
-        } else if (StringUtils.isNotEmpty(user.getMobile())
+        } else if (StrUtil.isNotEmpty(user.getMobile())
                 && UserConstants.NOT_UNIQUE.equals(userService.checkPhoneUnique(user))) {
             return Result.fail("新增用户'" + user.getUsername() + "'失败，手机号码已存在");
         }
@@ -89,10 +89,10 @@ public class SysUserController extends BaseController {
     @PutMapping
     public Result<Void> edit(@Validated @RequestBody SysUser user) {
         userService.checkUserAllowed(user);
-        if (StringUtils.isNotEmpty(user.getMobile())
+        if (StrUtil.isNotEmpty(user.getMobile())
                 && UserConstants.NOT_UNIQUE.equals(userService.checkPhoneUnique(user))) {
             return Result.fail("修改用户'" + user.getUsername() + "'失败，手机号码已存在");
-        } else if (StringUtils.isNotEmpty(user.getEmail())
+        } else if (StrUtil.isNotEmpty(user.getEmail())
                 && UserConstants.NOT_UNIQUE.equals(userService.checkEmailUnique(user))) {
             return Result.fail("修改用户'" + user.getUsername() + "'失败，邮箱账号已存在");
         }

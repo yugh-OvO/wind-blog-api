@@ -2,6 +2,7 @@ package wind.system.controller;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.json.JSONUtil;
 import lombok.RequiredArgsConstructor;
 import org.redisson.spring.data.connection.RedissonConnectionFactory;
 import org.springframework.data.redis.connection.RedisConnection;
@@ -9,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import wind.common.constant.CacheConstants;
 import wind.common.constant.CacheNames;
 import wind.common.core.domain.Result;
-import wind.common.utils.JsonUtils;
 import wind.common.utils.StringUtils;
 import wind.common.utils.redis.CacheUtils;
 import wind.common.utils.redis.RedisUtils;
@@ -117,7 +117,7 @@ public class CacheController {
         } else {
             cacheValue = RedisUtils.getCacheObject(cacheKey);
         }
-        SysCache sysCache = new SysCache(cacheName, cacheKey, JsonUtils.toJsonString(cacheValue));
+        SysCache sysCache = new SysCache(cacheName, cacheKey, JSONUtil.toJsonStr(cacheValue));
         return Result.ok(sysCache);
     }
 

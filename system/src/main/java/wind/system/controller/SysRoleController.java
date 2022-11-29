@@ -12,7 +12,7 @@ import wind.common.core.domain.OptionEntity;
 import wind.common.core.domain.PageQuery;
 import wind.common.core.domain.Result;
 import wind.common.core.domain.model.LoginUser;
-import wind.common.core.page.TableDataInfo;
+import wind.common.core.page.Paging;
 import wind.common.enums.BusinessType;
 import wind.common.helper.LoginHelper;
 import wind.system.entity.SysRole;
@@ -45,7 +45,7 @@ public class SysRoleController extends BaseController {
      */
     @SaCheckPermission("roleList")
     @GetMapping("/list")
-    public Result<TableDataInfo<SysRole>> list(SysRole role, PageQuery pageQuery) {
+    public Result<Paging<SysRole>> list(SysRole role, PageQuery pageQuery) {
         return Result.ok(roleService.selectPageRoleList(role, pageQuery));
     }
 

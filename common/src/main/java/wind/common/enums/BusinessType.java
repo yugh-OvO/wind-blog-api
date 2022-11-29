@@ -49,7 +49,7 @@ public enum BusinessType {
     /**
      * 生成代码
      */
-    GENCODE,
+    GEN_CODE,
 
     /**
      * 清空数据

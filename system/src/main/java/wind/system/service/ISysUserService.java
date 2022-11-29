@@ -1,7 +1,7 @@
 package wind.system.service;
 
 import wind.common.core.domain.PageQuery;
-import wind.common.core.page.TableDataInfo;
+import wind.common.core.page.Paging;
 import wind.system.entity.SysUser;
 
 /**
@@ -18,7 +18,7 @@ public interface ISysUserService {
      * @param pageQuery 分页信息
      * @return 用户信息集合信息
      */
-    TableDataInfo<SysUser> selectPageUserList(SysUser user, PageQuery pageQuery);
+    Paging<SysUser> selectPageUserList(SysUser user, PageQuery pageQuery);
 
     /**
      * 通过用户名查询用户

@@ -4,6 +4,7 @@ import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.exception.NotLoginException;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import wind.common.annotation.Log;
@@ -11,7 +12,7 @@ import wind.common.constant.CacheConstants;
 import wind.common.core.controller.BaseController;
 import wind.common.core.domain.Result;
 import wind.common.core.domain.dto.UserOnlineDTO;
-import wind.common.core.page.TableDataInfo;
+import wind.common.core.page.Paging;
 import wind.common.enums.BusinessType;
 import wind.common.utils.StreamUtils;
 import wind.common.utils.StringUtils;
@@ -40,7 +41,7 @@ public class SysUserOnlineController extends BaseController {
      */
     @SaCheckPermission("monitor:online:list")
     @GetMapping("/list")
-    public TableDataInfo<SysUserOnline> list(String ipaddr, String userName) {
+    public Paging<SysUserOnline> list(String ipaddr, String userName) {
         // 获取所有未过期的 token
         List<String> keys = StpUtil.searchTokenValue("", -1, 0);
         List<UserOnlineDTO> userOnlineDTOList = new ArrayList<>();
@@ -52,16 +53,16 @@ public class SysUserOnlineController extends BaseController {
             }
             userOnlineDTOList.add(RedisUtils.getCacheObject(CacheConstants.ONLINE_TOKEN_KEY + token));
         }
-        if (StringUtils.isNotEmpty(ipaddr) && StringUtils.isNotEmpty(userName)) {
+        if (StrUtil.isNotEmpty(ipaddr) && StrUtil.isNotEmpty(userName)) {
             userOnlineDTOList = StreamUtils.filter(userOnlineDTOList, userOnline ->
                     StringUtils.equals(ipaddr, userOnline.getIpaddr()) &&
                             StringUtils.equals(userName, userOnline.getUserName())
             );
-        } else if (StringUtils.isNotEmpty(ipaddr)) {
+        } else if (StrUtil.isNotEmpty(ipaddr)) {
             userOnlineDTOList = StreamUtils.filter(userOnlineDTOList, userOnline ->
                     StringUtils.equals(ipaddr, userOnline.getIpaddr())
             );
-        } else if (StringUtils.isNotEmpty(userName)) {
+        } else if (StrUtil.isNotEmpty(userName)) {
             userOnlineDTOList = StreamUtils.filter(userOnlineDTOList, userOnline ->
                     StringUtils.equals(userName, userOnline.getUserName())
             );
@@ -69,7 +70,7 @@ public class SysUserOnlineController extends BaseController {
         Collections.reverse(userOnlineDTOList);
         userOnlineDTOList.removeAll(Collections.singleton(null));
         List<SysUserOnline> userOnlineList = BeanUtil.copyToList(userOnlineDTOList, SysUserOnline.class);
-        return TableDataInfo.build(userOnlineList);
+        return Paging.build(userOnlineList);
     }
 
     /**

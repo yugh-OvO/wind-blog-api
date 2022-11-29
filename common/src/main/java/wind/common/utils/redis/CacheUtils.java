@@ -1,11 +1,11 @@
 package wind.common.utils.redis;
 
+import cn.hutool.extra.spring.SpringUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.redisson.api.RMap;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
-import wind.common.utils.spring.SpringUtils;
 
 import java.util.Set;
 
@@ -19,7 +19,7 @@ import java.util.Set;
 @SuppressWarnings(value = {"unchecked"})
 public class CacheUtils {
 
-    private static final CacheManager CACHE_MANAGER = SpringUtils.getBean(CacheManager.class);
+    private static final CacheManager CACHE_MANAGER = SpringUtil.getBean(CacheManager.class);
 
     /**
      * 获取缓存组内所有的KEY

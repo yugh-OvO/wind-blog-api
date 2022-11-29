@@ -1,9 +1,9 @@
 package wind.common.exception.base;
 
+import cn.hutool.core.util.StrUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import wind.common.utils.StringUtils;
 
 /**
  * 基础异常
@@ -62,7 +62,7 @@ public class BaseException extends RuntimeException {
     @Override
     public String getMessage() {
         String message = null;
-        if (!StringUtils.isEmpty(code)) {
+        if (!StrUtil.isEmpty(code)) {
             message = code;
         }
         if (message == null) {

@@ -1,6 +1,5 @@
 package wind.common.jackson;
 
-import cn.hutool.core.util.ObjectUtil;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.BeanProperty;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -10,9 +9,7 @@ import com.fasterxml.jackson.databind.ser.ContextualSerializer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import wind.common.annotation.Sensitive;
-import wind.common.core.service.SensitiveService;
 import wind.common.enums.SensitiveStrategy;
-import wind.common.utils.spring.SpringUtils;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -30,12 +27,7 @@ public class SensitiveJsonSerializer extends JsonSerializer<String> implements C
     @Override
     public void serialize(String value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
         try {
-            SensitiveService sensitiveService = SpringUtils.getBean(SensitiveService.class);
-            if (ObjectUtil.isNotNull(sensitiveService) && sensitiveService.isSensitive()) {
-                gen.writeString(strategy.desensitizer().apply(value));
-            } else {
-                gen.writeString(value);
-            }
+            gen.writeString(value);
         } catch (BeansException e) {
             log.error("脱敏实现不存在, 采用默认处理 => {}", e.getMessage());
             gen.writeString(value);

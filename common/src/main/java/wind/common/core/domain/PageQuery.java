@@ -1,6 +1,7 @@
 package wind.common.core.domain;
 
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.Data;
@@ -73,7 +74,7 @@ public class PageQuery implements Serializable {
         }
         if (StringUtils.isNotBlank(orderByColumn)) {
             String orderBy = SqlUtil.escapeOrderBySql(orderByColumn);
-            orderBy = StringUtils.toUnderScoreCase(orderBy);
+            orderBy = StrUtil.toUnderlineCase(orderBy);
             if (ASC.equals(isAsc)) {
                 return OrderItem.asc(orderBy);
             } else if (DESC.equals(isAsc)) {

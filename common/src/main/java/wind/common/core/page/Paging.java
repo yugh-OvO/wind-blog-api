@@ -15,7 +15,7 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class TableDataInfo<T> implements Serializable {
+public class Paging<T> implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -34,27 +34,27 @@ public class TableDataInfo<T> implements Serializable {
      * @param list  列表数据
      * @param total 总记录数
      */
-    public TableDataInfo(List<T> list, long total) {
+    public Paging(List<T> list, long total) {
         this.list = list;
         this.total = total;
     }
 
-    public static <T> TableDataInfo<T> build(IPage<T> page) {
-        TableDataInfo<T> rspData = new TableDataInfo<>();
+    public static <T> Paging<T> build(IPage<T> page) {
+        Paging<T> rspData = new Paging<>();
         rspData.setList(page.getRecords());
         rspData.setTotal(page.getTotal());
         return rspData;
     }
 
-    public static <T> TableDataInfo<T> build(List<T> list) {
-        TableDataInfo<T> rspData = new TableDataInfo<>();
+    public static <T> Paging<T> build(List<T> list) {
+        Paging<T> rspData = new Paging<>();
         rspData.setList(list);
         rspData.setTotal(list.size());
         return rspData;
     }
 
-    public static <T> TableDataInfo<T> build() {
-        TableDataInfo<T> rspData = new TableDataInfo<>();
+    public static <T> Paging<T> build() {
+        Paging<T> rspData = new Paging<>();
         return rspData;
     }
 
