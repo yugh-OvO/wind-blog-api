@@ -14,9 +14,6 @@ import wind.common.enums.BusinessType;
 import wind.system.entity.SysConfig;
 import wind.system.service.ConfigService;
 
-import javax.servlet.http.HttpServletResponse;
-import java.util.List;
-
 /**
  * 参数配置 信息操作处理
  *
@@ -26,27 +23,17 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/system/config")
-public class SysConfigController extends BaseController {
+public class ConfigController extends BaseController {
 
     private final ConfigService configService;
 
     /**
      * 获取参数配置列表
      */
-    @SaCheckPermission("system:config:list")
+    @SaCheckPermission("configList")
     @GetMapping("/list")
-    public Paging<SysConfig> list(SysConfig config, PageQuery pageQuery) {
-        return configService.selectPageConfigList(config, pageQuery);
-    }
-
-    /**
-     * 导出参数配置列表
-     */
-    @Log(title = "参数管理", businessType = BusinessType.EXPORT)
-    @SaCheckPermission("system:config:export")
-    @PostMapping("/export")
-    public void export(SysConfig config, HttpServletResponse response) {
-        List<SysConfig> list = configService.selectConfigList(config);
+    public Result<Paging<SysConfig>> list(SysConfig config, PageQuery pageQuery) {
+        return Result.ok(configService.selectPageConfigList(config, pageQuery));
     }
 
     /**
@@ -54,7 +41,7 @@ public class SysConfigController extends BaseController {
      *
      * @param configId 参数ID
      */
-    @SaCheckPermission("system:config:query")
+    @SaCheckPermission("configList")
     @GetMapping(value = "/{configId}")
     public Result<SysConfig> getInfo(@PathVariable Long configId) {
         return Result.ok(configService.selectConfigById(configId));
@@ -73,7 +60,7 @@ public class SysConfigController extends BaseController {
     /**
      * 新增参数配置
      */
-    @SaCheckPermission("system:config:add")
+    @SaCheckPermission("configList")
     @Log(title = "参数管理", businessType = BusinessType.INSERT)
     @PostMapping
     public Result<Void> add(@Validated @RequestBody SysConfig config) {
@@ -87,7 +74,7 @@ public class SysConfigController extends BaseController {
     /**
      * 修改参数配置
      */
-    @SaCheckPermission("system:config:edit")
+    @SaCheckPermission("configList")
     @Log(title = "参数管理", businessType = BusinessType.UPDATE)
     @PutMapping
     public Result<Void> edit(@Validated @RequestBody SysConfig config) {
@@ -101,7 +88,7 @@ public class SysConfigController extends BaseController {
     /**
      * 根据参数键名修改参数配置
      */
-    @SaCheckPermission("system:config:edit")
+    @SaCheckPermission("configList")
     @Log(title = "参数管理", businessType = BusinessType.UPDATE)
     @PutMapping("/updateByKey")
     public Result<Void> updateByKey(@RequestBody SysConfig config) {
@@ -114,7 +101,7 @@ public class SysConfigController extends BaseController {
      *
      * @param configIds 参数ID串
      */
-    @SaCheckPermission("system:config:remove")
+    @SaCheckPermission("configList")
     @Log(title = "参数管理", businessType = BusinessType.DELETE)
     @DeleteMapping("/{configIds}")
     public Result<Void> remove(@PathVariable Long[] configIds) {
@@ -125,10 +112,10 @@ public class SysConfigController extends BaseController {
     /**
      * 刷新参数缓存
      */
-    @SaCheckPermission("system:config:remove")
+    @SaCheckPermission("configList")
     @Log(title = "参数管理", businessType = BusinessType.CLEAN)
-    @DeleteMapping("/refreshCache")
-    public Result<Void> refreshCache() {
+    @DeleteMapping("/flushCache")
+    public Result<Void> flushCache() {
         configService.resetConfigCache();
         return Result.ok();
     }
