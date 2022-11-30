@@ -25,7 +25,7 @@ import java.util.Map;
 @Validated
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/system/user/profile")
+@RequestMapping("/system/user")
 public class SysProfileController extends BaseController {
 
     private final UserService userService;
@@ -33,7 +33,7 @@ public class SysProfileController extends BaseController {
     /**
      * 个人信息
      */
-    @GetMapping
+    @GetMapping("/profile")
     public Result<Map<String, Object>> profile() {
         SysUser user = userService.selectUserById(getUserId());
         Map<String, Object> ajax = MapUtil.newHashMap();
@@ -46,7 +46,7 @@ public class SysProfileController extends BaseController {
      * 修改用户
      */
     @Log(title = "个人信息", businessType = BusinessType.UPDATE)
-    @PutMapping
+    @PutMapping("/updateProfile")
     public Result<Void> updateProfile(@RequestBody SysUser user) {
         if (StrUtil.isNotEmpty(user.getMobile())
                 && UserConstants.NOT_UNIQUE.equals(userService.checkPhoneUnique(user))) {

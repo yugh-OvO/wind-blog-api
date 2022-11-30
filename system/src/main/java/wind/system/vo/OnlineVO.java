@@ -1,4 +1,4 @@
-package wind.system.entity;
+package wind.system.vo;
 
 import lombok.Data;
 
@@ -9,32 +9,27 @@ import lombok.Data;
  */
 
 @Data
-public class SysUserOnline {
+public class OnlineVO {
 
     /**
      * 会话编号
      */
-    private String tokenId;
-
-    /**
-     * 部门名称
-     */
-    private String departmentName;
+    private String token;
 
     /**
      * 用户名称
      */
-    private String userName;
+    private String username;
 
     /**
      * 登录IP地址
      */
-    private String ipaddr;
+    private String ip;
 
     /**
      * 登录地址
      */
-    private String loginLocation;
+    private String location;
 
     /**
      * 浏览器类型
@@ -49,6 +44,6 @@ public class SysUserOnline {
     /**
      * 登录时间
      */
-    private Long loginTime;
+    private String loginTime;
 
 }

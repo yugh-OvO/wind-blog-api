@@ -1,20 +1,21 @@
-package wind.common.listener;
+package wind.system.listener;
 
 import cn.dev33.satoken.config.SaTokenConfig;
 import cn.dev33.satoken.listener.SaTokenListener;
 import cn.dev33.satoken.stp.SaLoginModel;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import wind.common.constant.CacheConstants;
-import wind.common.core.domain.dto.UserOnlineDTO;
 import wind.common.core.domain.model.LoginUser;
 import wind.common.helper.LoginHelper;
 import wind.common.utils.ServletUtils;
 import wind.common.utils.ip.AddressUtils;
 import wind.common.utils.redis.RedisUtils;
+import wind.system.dto.OnlineDTO;
 
 import java.time.Duration;
 
@@ -38,15 +39,14 @@ public class UserActionListener implements SaTokenListener {
         UserAgent userAgent = UserAgentUtil.parse(ServletUtils.getRequest().getHeader("User-Agent"));
         String ip = ServletUtils.getClientIp();
         LoginUser user = LoginHelper.getLoginUser();
-        UserOnlineDTO dto = new UserOnlineDTO();
-        dto.setIpaddr(ip);
-        dto.setLoginLocation(AddressUtils.getRealAddressByIp(ip));
+        OnlineDTO dto = new OnlineDTO();
+        dto.setIp(ip);
+        dto.setLocation(AddressUtils.getRealAddressByIp(ip));
         dto.setBrowser(userAgent.getBrowser().getName());
         dto.setOs(userAgent.getOs().getName());
-        dto.setLoginTime(System.currentTimeMillis());
-        dto.setTokenId(tokenValue);
-        dto.setUserName(user.getUsername());
-        dto.setDepartmentName(user.getDepartmentName());
+        dto.setLoginTime(DateUtil.now());
+        dto.setToken(tokenValue);
+        dto.setUsername(user.getUsername());
         RedisUtils.setCacheObject(CacheConstants.ONLINE_TOKEN_KEY + tokenValue, dto, Duration.ofSeconds(tokenConfig.getTimeout()));
         log.info("user doLogin, userId:{}, token:{}", loginId, tokenValue);
     }

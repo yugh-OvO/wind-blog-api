@@ -1,9 +1,7 @@
-package wind.common.core.domain.dto;
+package wind.system.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.io.Serializable;
 
 /**
  * 当前在线会话
@@ -13,34 +11,29 @@ import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
-public class UserOnlineDTO implements Serializable {
+public class OnlineDTO {
 
     private static final long serialVersionUID = 1L;
 
     /**
      * 会话编号
      */
-    private String tokenId;
-
-    /**
-     * 部门名称
-     */
-    private String departmentName;
+    private String token;
 
     /**
      * 用户名称
      */
-    private String userName;
+    private String username;
 
     /**
      * 登录IP地址
      */
-    private String ipaddr;
+    private String ip;
 
     /**
      * 登录地址
      */
-    private String loginLocation;
+    private String location;
 
     /**
      * 浏览器类型
@@ -55,6 +48,6 @@ public class UserOnlineDTO implements Serializable {
     /**
      * 登录时间
      */
-    private Long loginTime;
+    private String loginTime;
 
 }
